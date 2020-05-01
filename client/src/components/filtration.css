@@ -1,0 +1,10 @@
+.filtration-form {
+    z-index: 1040;
+    position: absolute;
+    top: calc(100vh / 3);
+    background: #fff;
+    padding: 20px 30px;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+    text-align: left;
+}

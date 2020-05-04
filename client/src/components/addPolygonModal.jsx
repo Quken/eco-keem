@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { SketchPicker } from "react-color";
-import { Form } from "react-bootstrap";
+import React, { useState } from 'react';
+import { SketchPicker } from 'react-color';
+import { Form } from 'react-bootstrap';
 
-import { post, get, put } from "../utils/httpService";
-import { POLYGON_URL } from "../utils/constants";
+import { post, get, put } from '../utils/httpService';
+import { POLYGON_URL } from '../utils/constants';
 
-import { VerticallyCenteredModal } from "./modal";
+import { VerticallyCenteredModal } from './modal';
 import { SubmitForm } from './submitForm';
 import { useEffect } from 'react';
 
@@ -15,13 +15,13 @@ const initialState = {
       r: 0,
       g: 0,
       b: 0,
-      a: 1
+      a: 1,
     },
     lineThickness: 1,
-    name: "",
-    type: "poligon",
-    description: ""
-  }
+    name: '',
+    type: 'poligon',
+    description: '',
+  },
 };
 
 export const AddPolygonModal = ({
@@ -58,7 +58,7 @@ export const AddPolygonModal = ({
           r: data.brush_color_r,
           g: data.bruch_color_g,
           b: data.brush_color_b,
-          a: data.brush_alfa
+          a: data.brush_alfa,
         });
         setName(data.name);
         setDescription(data.description);
@@ -66,7 +66,7 @@ export const AddPolygonModal = ({
     }
   }, [polygonId, isEditPolygonMode]);
 
-  const addPolygon = emission => {
+  const addPolygon = (emission) => {
     post(POLYGON_URL, {
       brush_color_r: color.r,
       bruch_color_g: color.g,
@@ -85,9 +85,9 @@ export const AddPolygonModal = ({
       points: coordinates.map((point, index) => ({
         latitude: point.lat,
         longitude: point.lng,
-        order123: index
+        order123: index + 1,
       })),
-      emission
+      emission,
     })
       .then(() => {
         clearForm();
@@ -101,7 +101,7 @@ export const AddPolygonModal = ({
       });
   };
 
-  const editPolygon = emission => {
+  const editPolygon = (emission) => {
     put(`${POLYGON_URL}/${polygonId}`, {
       brush_color_r: color.r,
       bruch_color_g: color.g,
@@ -114,7 +114,7 @@ export const AddPolygonModal = ({
       line_thickness: Number(lineThickness),
       name,
       description,
-      emission
+      emission,
     })
       .then(() => {
         clearForm();
@@ -140,7 +140,12 @@ export const AddPolygonModal = ({
   };
 
   return (
-    <VerticallyCenteredModal size='lg' show={show} onHide={() => hide()} header="Додати або редагувати полігон">
+    <VerticallyCenteredModal
+      size='lg'
+      show={show}
+      onHide={() => hide()}
+      header='Додати або редагувати полігон'
+    >
       <Form>
         <Form.Group>
           <Form.Label>
@@ -149,10 +154,13 @@ export const AddPolygonModal = ({
           <Form.Control
             type='number'
             value={lineThickness}
-            onChange={e => setLineThickness(e.target.value)}
+            onChange={(e) => setLineThickness(e.target.value)}
           />
           <br />
-          <SketchPicker color={color} onChangeComplete={({ rgb }) => setColor(rgb)} />
+          <SketchPicker
+            color={color}
+            onChangeComplete={({ rgb }) => setColor(rgb)}
+          />
         </Form.Group>
 
         <Form.Group>
@@ -160,7 +168,7 @@ export const AddPolygonModal = ({
           <Form.Control
             type='input'
             value={name}
-            onChange={e => setName(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
           />
         </Form.Group>
 
@@ -170,14 +178,14 @@ export const AddPolygonModal = ({
             as='textarea'
             rows='3'
             value={description}
-            onChange={e => setDescription(e.target.value)}
+            onChange={(e) => setDescription(e.target.value)}
           />
         </Form.Group>
-        {
-          isEditPolygonMode
-            ? <SubmitForm onSave={editPolygon} />
-            : <SubmitForm onSave={addPolygon} />
-        }
+        {isEditPolygonMode ? (
+          <SubmitForm onSave={editPolygon} />
+        ) : (
+          <SubmitForm onSave={addPolygon} />
+        )}
       </Form>
     </VerticallyCenteredModal>
   );

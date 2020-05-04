@@ -6,9 +6,11 @@ import {
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 const valuePrecision = 4;
 
-export const Chart = ({ data }) => {
+export const Chart = ({ title, data }) => {
   const dataForView = data.map(item => ({...item, value: +item.value.toFixed(valuePrecision)}));
   return (
+    <div>
+    <h3>{title}</h3>
     <PieChart width={400} height={400}>
       <Pie
         data={dataForView}
@@ -26,5 +28,6 @@ export const Chart = ({ data }) => {
         }
       </Pie>
     </PieChart>
+    </div>
   );
 };

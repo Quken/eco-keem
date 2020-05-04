@@ -1,13 +1,13 @@
-import React from "react";
-import { Popup, Marker } from "react-leaflet";
-import { Icon } from "leaflet/dist/leaflet-src.esm";
-import { Button, Table } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import React from 'react';
+import { Popup, Marker } from 'react-leaflet';
+import { Icon } from 'leaflet/dist/leaflet-src.esm';
+import { Button, Table } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 
-import { EmissionsChartModal } from "./emissionsChartModal";
+import { EmissionsChartModal } from './emissionsChartModal';
 
-import "./popup.css";
+import './popup.css';
 
 export const Points = ({
   points,
@@ -35,7 +35,7 @@ export const Points = ({
           Description: description,
           Image: image,
           emissions,
-          owner_type
+          owner_type,
         }) => (
           <Marker
             key={id}
@@ -47,13 +47,13 @@ export const Points = ({
               })
             }
           >
-            <Popup maxWidth="auto">
+            <Popup maxWidth='auto'>
               <FontAwesomeIcon
                 icon={faPencilAlt}
                 onClick={() => handleClick(id)}
-                className="edit-pencil-icon"
+                className='edit-pencil-icon'
               />
-              <div className="mt-4 mb-2">
+              <div className='mt-4 mb-2'>
                 {name && (
                   <div>
                     <strong>Назва:</strong> {name}
@@ -76,21 +76,20 @@ export const Points = ({
                     striped
                     bordered
                     hover
-                    size="sm"
-                    className="emissions-table"
+                    size='sm'
+                    className='emissions-table'
                   >
                     <thead>
                       <tr>
-                        <th title="Хімічний елемент">Хімічний елемент</th>
-                        <th title="Середовище">Середовище</th>
-                        <th title="Середнє значення">Середнє значення</th>
-                        <th title="Максимальне значення">
+                        <th title='Хімічний елемент'>Хімічний елемент</th>
+                        <th title='Середнє значення'>Середнє значення</th>
+                        <th title='Максимальне значення'>
                           Максимальне значення
                         </th>
-                        <th title="Рік">Рік</th>
-                        <th title="Місяць">Місяць</th>
-                        <th title="День">День</th>
-                        <th title="Одиниця виміру">Одиниця виміру</th>
+                        <th title='Рік'>Рік</th>
+                        <th title='Місяць'>Місяць</th>
+                        <th title='День'>День</th>
+                        <th title='Одиниця виміру'>Одиниця виміру</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -98,7 +97,6 @@ export const Points = ({
                         (
                           {
                             short_name,
-                            name: environmentName,
                             ValueAvg,
                             ValueMax,
                             Year,
@@ -110,7 +108,6 @@ export const Points = ({
                         ) => (
                           <tr key={key}>
                             <td title={short_name}>{short_name}</td>
-                            <td title={environmentName}>{environmentName}</td>
                             <td title={ValueAvg}>{ValueAvg}</td>
                             <td title={ValueMax}>{ValueMax}</td>
                             <td title={Year}>{Year}</td>
@@ -123,7 +120,7 @@ export const Points = ({
                     </tbody>
                   </Table>
                   <Button
-                    size="sm"
+                    size='sm'
                     onClick={() => setShowEmissionsChartModal(true)}
                   >
                     Відобразити графіки викидів

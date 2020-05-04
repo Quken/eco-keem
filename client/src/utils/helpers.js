@@ -1,4 +1,4 @@
-export const transformEmissions = emissions => {
+export const transformEmissions = (emissions) => {
   const elementIds = [...new Set(emissions.map(({ idElement }) => idElement))];
 
   // {
@@ -7,7 +7,7 @@ export const transformEmissions = emissions => {
   let transformedData = {};
 
   emissions.forEach(({ idElement, ValueAvg, ValueMax, Year, Month }) => {
-    elementIds.forEach(elementId => {
+    elementIds.forEach((elementId) => {
       if (elementId === idElement) {
         if (transformedData[elementId]) {
           if (transformedData[idElement][Year]) {
@@ -16,22 +16,22 @@ export const transformEmissions = emissions => {
 
               transformedData[idElement][Year][Month] = {
                 avg: ValueAvg + avg,
-                max: ValueMax + max
+                max: ValueMax + max,
               };
             } else {
               transformedData[idElement][Year][Month] = {
                 avg: ValueAvg,
-                max: ValueMax
+                max: ValueMax,
               };
             }
           } else {
             transformedData[idElement][Year] = {
-              [Month]: { avg: ValueAvg, max: ValueMax }
+              [Month]: { avg: ValueAvg, max: ValueMax },
             };
           }
         } else {
           transformedData[idElement] = {
-            [Year]: { [Month]: { avg: ValueAvg, max: ValueMax } }
+            [Year]: { [Month]: { avg: ValueAvg, max: ValueMax } },
           };
         }
       }
@@ -49,10 +49,10 @@ export const formatMonthDataForBarChart = (
   transformedEmissions &&
   elementId &&
   year &&
-  Object.keys(transformedEmissions[elementId][year]).map(month => ({
+  Object.keys(transformedEmissions[elementId][year]).map((month) => ({
     month,
     average: transformedEmissions[elementId][year][month].avg,
-    max: transformedEmissions[elementId][year][month].max
+    max: transformedEmissions[elementId][year][month].max,
   }));
 
 export const getElementName = (emissions, emissionId) => [
@@ -60,7 +60,7 @@ export const getElementName = (emissions, emissionId) => [
     emissions
       .filter(({ idElement }) => Number(emissionId) === idElement)
       .map(({ short_name }) => short_name)
-  )
+  ),
 ];
 
 export const removeObjectDuplicates = (items, prop) =>
@@ -68,3 +68,79 @@ export const removeObjectDuplicates = (items, prop) =>
     (obj, index, arr) =>
       arr.map((mapObj) => mapObj[prop]).indexOf(obj[prop]) === index
   );
+
+export const findAverageForEmissionCalculations = (emissionCalculations) => {
+  const elementNames = [];
+
+  emissionCalculations.forEach((emission) => {
+    if (!elementNames.includes(emission.element)) {
+      elementNames.push(emission.element);
+    }
+  });
+
+  return elementNames.map((name) => {
+    let temp = { name, quantity: 0, total: 0 };
+
+    emissionCalculations.forEach((emission) => {
+      if (temp.name === emission.element) {
+        temp.total += emission.averageCalculations.average;
+        temp.quantity++;
+      }
+    });
+
+    return {
+      name: temp.name,
+      value: temp.total / temp.quantity,
+    };
+  });
+};
+
+export const findMaxForEmissionCalculations = (emissionCalculations) => {
+  const elementNames = [];
+
+  emissionCalculations.forEach((emission) => {
+    if (!elementNames.includes(emission.element)) {
+      elementNames.push(emission.element);
+    }
+  });
+
+  return elementNames.map((name) => {
+    let temp = { name, value: 0 };
+
+    emissionCalculations.forEach((emission) => {
+      if (temp.name === emission.element) {
+        if (emission.maximumCalculations.max > temp.value) {
+          temp.value = emission.maximumCalculations.max;
+        }
+      }
+    });
+
+    return temp;
+  });
+};
+
+export const formatEmissionsLineChart = (emissionCalculations) => {
+  const elementNames = [];
+
+  emissionCalculations.forEach((emission) => {
+    if (!elementNames.includes(emission.element)) {
+      elementNames.push(emission.element);
+    }
+  });
+
+  return elementNames.reduce((obj, name) => {
+    const temp = [];
+    emissionCalculations.forEach((emission) => {
+      if (name === emission.element) {
+        temp.push({
+          name: `${emission.date.day}-${emission.date.month}-${emission.date.year}`,
+          'Середнє значення': emission.averageCalculations.average,
+          'Максимальне значення': emission.maximumCalculations.max,
+        });
+      }
+    });
+    obj[name] = temp;
+
+    return obj;
+  }, {});
+};

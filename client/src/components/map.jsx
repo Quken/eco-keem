@@ -18,6 +18,8 @@ import { AddPolygonModal } from './addPolygonModal';
 import { Filtration } from './filtration';
 
 import './map.css';
+import { EnvironmentsInfoContext } from './context/environmentsInfoContext';
+import { useContext } from 'react';
 
 const initialState = {
   points: [],
@@ -100,29 +102,20 @@ export const MapView = ({ user }) => {
   );
   const [polygonId, setPolygonId] = useState(initialState.polygonId);
 
-  const [mapCoordinates, setMapCoordinates] = useState({
-    northLatitude: null,
-    southLatitude: null,
-    westLongitude: null,
-    eastLongitude: null,
-  });
+  //environmentsInfo
+  const { environmentsInfo, setEnvironmentsInfo } = useContext(
+    EnvironmentsInfoContext
+  );
 
   const fetchData = () => {
-    get(POLYGONS_URL).then(({ data }) => {
+    const idEnvironment = environmentsInfo.selected.id;
+
+    get(`${POLYGONS_URL}?idEnvironment=${idEnvironment}`).then(({ data }) => {
       setFilteredPolygons(data);
       initialState.polygons = data;
     });
 
-    let pointsUrl = `${POINTS_URL}`;
-
-    const shouldLoadDynamically = Object.values(mapCoordinates).every(
-      (coordinate) => !!coordinate
-    );
-    if (shouldLoadDynamically) {
-      pointsUrl += `?eastLongitude=${mapCoordinates.eastLongitude}&westLongitude=${mapCoordinates.westLongitude}&southLatitude=${mapCoordinates.southLatitude}&northLatitude=${mapCoordinates.northLatitude}`;
-    }
-
-    get(`${pointsUrl}`).then(({ data }) => {
+    get(`${POINTS_URL}?idEnvironment=${idEnvironment}`).then(({ data }) => {
       setFilteredPoints(data);
       initialState.points = data;
     });
@@ -135,11 +128,20 @@ export const MapView = ({ user }) => {
     filteredItems.items.some(({ id_of_user }) => idOfUser === id_of_user);
 
   useEffect(() => {
-    if (shouldFetchData) {
+    if (environmentsInfo.environments.length && !environmentsInfo.selected) {
+      setEnvironmentsInfo({
+        selected: environmentsInfo.environments[0],
+        environments: environmentsInfo.environments,
+      });
+    }
+  }, [environmentsInfo.environments]);
+
+  useEffect(() => {
+    if (shouldFetchData && environmentsInfo.selected) {
       fetchData();
       setShouldFetchData(false);
     }
-  }, [shouldFetchData]);
+  }, [shouldFetchData, environmentsInfo.selected]);
 
   useEffect(() => {
     if (filteredItems.items.length) {
@@ -190,18 +192,6 @@ export const MapView = ({ user }) => {
     }
   };
 
-  const updateMapParams = (mapBounds) => {
-    const parsedCoordinates = {
-      northLatitude: mapBounds._northEast.lat,
-      eastLongitude: mapBounds._northEast.lng,
-      southLatitude: mapBounds._southWest.lat,
-      westLongitude: mapBounds._southWest.lng,
-    };
-
-    setMapCoordinates(parsedCoordinates);
-    setShouldFetchData(true);
-  };
-
   return (
     <>
       <LeafletMap
@@ -216,8 +206,6 @@ export const MapView = ({ user }) => {
         animate={true}
         easeLinearity={0.35}
         onClick={addGeographicalObjectToMap}
-        onMouseup={(e) => updateMapParams(e.target.getBounds())}
-        onZoomEnd={(e) => updateMapParams(e.target.getBounds())}
       >
         <TileLayer url={OPEN_STREET_MAP_URL} />
         <Polygons

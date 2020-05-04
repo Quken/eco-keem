@@ -8,6 +8,8 @@ import { POINT_URL } from "../utils/constants";
 import { VerticallyCenteredModal } from "./modal";
 import { SubmitForm } from './submitForm';
 
+import "./submitForm.css";
+
 const initialState = {
   form: {
     name: "",
@@ -131,7 +133,7 @@ export const AddPointModal = ({
               {type.name || emptyState.typeOfObject}
             </Dropdown.Toggle>
 
-            <Dropdown.Menu>
+            <Dropdown.Menu className="form-dropdown">
               {types.length && types.map(typeOfObject => (
                 <Dropdown.Item
                   key={typeOfObject.id}

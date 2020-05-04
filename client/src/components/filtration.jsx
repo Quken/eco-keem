@@ -36,34 +36,36 @@ export const Filtration = ({ user, setFilteredItems }) => {
   return (
     <Form
       onSubmit={submitHandler}
-      className='filtration-form d-flex justify-content-center flex-column'
-      ref={form => filtrationForm = form}
+      className="filtration-form d-flex justify-content-center flex-column"
+      ref={(form) => (filtrationForm = form)}
     >
       <Form.Group>
-        <Form.Label>Оберіть експерта</Form.Label>
+        <Form.Label>
+          <b>Оберіть експерта</b>
+        </Form.Label>
         {existingExperts.length &&
           existingExperts.map((expert) => (
             <Form.Check
               label={expert.expert_name}
-              type='checkbox'
+              type="checkbox"
               value={expert.id_of_expert}
               key={expert.id_of_expert}
-              name='expertCheckbox'
+              name="expertCheckbox"
             />
           ))}
         {user && (
           <Form.Check
             label="Мої об'єкти"
-            type='checkbox'
+            type="checkbox"
             value={user.id_of_user}
             key={user.id_of_user}
-            name='myCheckbox'
+            name="myCheckbox"
           />
         )}
       </Form.Group>
 
-      <Button variant='primary' type='submit' className='text-center'>
-        Submit
+      <Button variant="primary" type="submit" className="text-center">
+        Застосувати
       </Button>
     </Form>
   );

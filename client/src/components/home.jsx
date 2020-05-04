@@ -2,7 +2,6 @@ import React from 'react';
 
 import { CarouselView } from './carousel';
 import { Col, Container, Row } from 'react-bootstrap';
-import { AuthorCard } from './authorCard';
 import { KEEMPrinciples } from './KEEMPrinciples';
 
 export const Home = () => {
@@ -11,10 +10,7 @@ export const Home = () => {
       <CarouselView />
       <Container>
         <Row className='justify-content-center mt-5 mb-5'>
-          <Col xs={4}>
-            <AuthorCard />
-          </Col>
-          <Col xs={8}>
+          <Col xs={12}>
             <KEEMPrinciples />
           </Col>
         </Row>

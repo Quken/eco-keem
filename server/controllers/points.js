@@ -5,31 +5,7 @@ const iconsMapPromise = require('../utils/iconsMap')();
 const { getEmissionsOnMap, SOURCE_POI } = require('./emissions_on_map');
 
 const getPoints = (req, res) => {
-  const {
-    eastLongitude,
-    westLongitude,
-    southLatitude,
-    northLatitude,
-  } = req.query;
-
-  const shouldLoadDynamically =
-    !!eastLongitude && !!westLongitude && !!southLatitude && !!northLatitude;
-  let dynamicLoadQuery = '';
-  if (shouldLoadDynamically) {
-    const [left, right, top, bottom] = [
-      Math.min(westLongitude, eastLongitude),
-      Math.max(westLongitude, eastLongitude),
-      Math.max(northLatitude, southLatitude),
-      Math.min(northLatitude, southLatitude),
-    ];
-
-    dynamicLoadQuery = `
-      WHERE 
-        poi.Coord_Lat BETWEEN ${bottom} AND ${top} 
-      AND 
-        poi.Coord_Lng BETWEEN ${left} AND ${right} 
-    `;
-  }
+  const { idEnvironment } = req.query;
 
   const query = `
   SELECT 
@@ -58,7 +34,6 @@ const getPoints = (req, res) => {
     user 
   ON 
     poi.id_of_user = user.id_of_user
-  ${dynamicLoadQuery}  
   ;`;
 
   const pointsPromise = new Promise((resolve, reject) => {
@@ -87,7 +62,11 @@ const getPoints = (req, res) => {
           owner_type_id,
           owner_type_name,
         }) => {
-          const emissionsOnMapPromise = getEmissionsOnMap(SOURCE_POI, Id);
+          const emissionsOnMapPromise = getEmissionsOnMap(
+            SOURCE_POI,
+            Id,
+            idEnvironment
+          );
           return Promise.all([emissionsOnMapPromise, iconsMapPromise]).then(
             ([emissions, iconsMap]) => ({
               Id,

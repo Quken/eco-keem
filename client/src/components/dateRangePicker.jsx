@@ -5,29 +5,39 @@ import { uk } from 'date-fns/locale';
 
 import { EMISSIONS_CALCULATIONS_URL } from '../utils/constants';
 import { get } from '../utils/httpService';
+import { useContext } from 'react';
+import { EnvironmentsInfoContext } from './context/environmentsInfoContext';
 
 export const DateRangePickerView = ({ id, param, setEmissionCalculations }) => {
-    const [state, setState] = React.useState([
-        {
-            startDate: new Date(),
-            endDate: addDays(new Date(), 7),
-            key: 'selection'
-        }
-    ]);
+  const { environmentsInfo } = useContext(EnvironmentsInfoContext);
 
-    React.useEffect(() => {
-        const [date] = state;
-        get(`${EMISSIONS_CALCULATIONS_URL}?${param}=${id}&startDate=${date.startDate.toISOString()}&endDate=${date.endDate.toISOString()}`)
-            .then(({ data }) => setEmissionCalculations(data))
-    }, [id, state]);
+  const [state, setState] = React.useState([
+    {
+      startDate: new Date(),
+      endDate: addDays(new Date(), 7),
+      key: 'selection',
+    },
+  ]);
 
-    return <DateRangePicker
-        locale={uk}
-        onChange={item => setState([item.selection])}
-        showSelectionPreview={true}
-        moveRangeOnFirstSelection={false}
-        months={2}
-        ranges={state}
-        direction="horizontal"
+  React.useEffect(() => {
+    const [date] = state;
+
+    const idEnvironment = environmentsInfo.selected.id;
+
+    get(
+      `${EMISSIONS_CALCULATIONS_URL}?idEnvironment=${idEnvironment}&${param}=${id}&startDate=${date.startDate.toISOString()}&endDate=${date.endDate.toISOString()}`
+    ).then(({ data }) => setEmissionCalculations(data));
+  }, [id, state]);
+
+  return (
+    <DateRangePicker
+      locale={uk}
+      onChange={(item) => setState([item.selection])}
+      showSelectionPreview={true}
+      moveRangeOnFirstSelection={false}
+      months={2}
+      ranges={state}
+      direction='horizontal'
     />
-}
+  );
+};

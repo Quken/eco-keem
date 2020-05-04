@@ -1,12 +1,12 @@
-import React from "react";
-import { Popup, Polygon } from "react-leaflet";
-import { Button, Table } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import React from 'react';
+import { Popup, Polygon } from 'react-leaflet';
+import { Button, Table } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 
-import { EmissionsChartModal } from "./emissionsChartModal";
+import { EmissionsChartModal } from './emissionsChartModal';
 
-import "./popup.css";
+import './popup.css';
 
 const initialState = {
   showEmissionsChartModal: false,
@@ -47,13 +47,13 @@ export const Polygons = ({
             positions={polygonPoints}
             color={`rgba(${brushColorR}, ${brushColorG}, ${brushColorB}, 1)`}
           >
-            <Popup maxWidth="auto">
+            <Popup maxWidth='auto'>
               <FontAwesomeIcon
                 icon={faPencilAlt}
                 onClick={() => handleClick(poligonId)}
-                className="edit-pencil-icon"
+                className='edit-pencil-icon'
               />
-              <div className="mt-4 mb-2">
+              <div className='mt-4 mb-2'>
                 {name && (
                   <div>
                     <strong>Назва:</strong> {name}
@@ -71,21 +71,20 @@ export const Polygons = ({
                     striped
                     bordered
                     hover
-                    size="sm"
-                    className="emissions-table"
+                    size='sm'
+                    className='emissions-table'
                   >
                     <thead>
                       <tr>
-                        <th title="Хімічний елемент">Хімічний елемент</th>
-                        <th title="Середовище">Середовище</th>
-                        <th title="Середнє значення">Середнє значення</th>
-                        <th title="Максимальне значення">
+                        <th title='Хімічний елемент'>Хімічний елемент</th>
+                        <th title='Середнє значення'>Середнє значення</th>
+                        <th title='Максимальне значення'>
                           Максимальне значення
                         </th>
-                        <th title="Рік">Рік</th>
-                        <th title="Місяць">Місяць</th>
-                        <th title="День">День</th>
-                        <th title="Одиниця виміру">Одиниця виміру</th>
+                        <th title='Рік'>Рік</th>
+                        <th title='Місяць'>Місяць</th>
+                        <th title='День'>День</th>
+                        <th title='Одиниця виміру'>Одиниця виміру</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -93,7 +92,6 @@ export const Polygons = ({
                         (
                           {
                             short_name,
-                            name: environmentName,
                             ValueAvg,
                             ValueMax,
                             Year,
@@ -105,7 +103,6 @@ export const Polygons = ({
                         ) => (
                           <tr key={key}>
                             <td title={short_name}>{short_name}</td>
-                            <td title={environmentName}>{environmentName}</td>
                             <td title={ValueAvg}>{ValueAvg}</td>
                             <td title={ValueMax}>{ValueMax}</td>
                             <td title={Year}>{Year}</td>
@@ -118,7 +115,7 @@ export const Polygons = ({
                     </tbody>
                   </Table>
                   <Button
-                    size="sm"
+                    size='sm'
                     onClick={() => setShowEmissionsChartModal(true)}
                   >
                     Відобразити графіки викидів

@@ -5,7 +5,18 @@ const SOURCE_POI = 'poi';
 const SOURCE_POLYGON = 'polygon';
 
 const insertEmissionOnMap = (source, emission) => {
-  const { idPoi, idElement, idEnvironment, valueAvg, valueMax, idPolygon, year, month, day, measure } = emission;
+  const {
+    idPoi,
+    idElement,
+    idEnvironment,
+    valueAvg,
+    valueMax,
+    idPolygon,
+    year,
+    month,
+    day,
+    measure,
+  } = emission;
   return new Promise((resolve, reject) => {
     const query = `
       INSERT INTO 
@@ -14,8 +25,26 @@ const insertEmissionOnMap = (source, emission) => {
       VALUES
         (?)`;
 
-    const columnNames = ['idElement', 'idEnvironment', 'ValueAvg', 'ValueMax', 'Year', 'Month', 'day', 'Measure'];
-    const values = [idElement, idEnvironment, valueAvg, valueMax, year, month, day, measure];
+    const columnNames = [
+      'idElement',
+      'idEnvironment',
+      'ValueAvg',
+      'ValueMax',
+      'Year',
+      'Month',
+      'day',
+      'Measure',
+    ];
+    const values = [
+      idElement,
+      idEnvironment,
+      valueAvg,
+      valueMax,
+      year,
+      month,
+      day,
+      measure,
+    ];
     if (source === SOURCE_POI) {
       columnNames.push('idPoi');
       values.push(idPoi);
@@ -31,11 +60,11 @@ const insertEmissionOnMap = (source, emission) => {
       }
 
       resolve();
-    })
+    });
   });
 };
 
-const getEmissionsOnMap = (source, id) => {
+const getEmissionsOnMap = (source, id, idEnvironment) => {
   let filteringColumnName;
   if (source === SOURCE_POI) {
     filteringColumnName = 'idPoi';
@@ -45,7 +74,18 @@ const getEmissionsOnMap = (source, id) => {
 
   return new Promise((resolve, reject) => {
     const emissionsOnMapTable = 'emissions_on_map';
-    const columnNames = ['idElement', 'idEnvironment', 'ValueAvg', 'ValueMax', 'Year', 'Month', 'day', 'emissions_on_map.Measure', 'elements.short_name', 'environment.name'];
+    const columnNames = [
+      'idElement',
+      'idEnvironment',
+      'ValueAvg',
+      'ValueMax',
+      'Year',
+      'Month',
+      'day',
+      'emissions_on_map.Measure',
+      'elements.short_name',
+      'environment.name',
+    ];
     const query = `
       SELECT
       ??
@@ -59,8 +99,17 @@ const getEmissionsOnMap = (source, id) => {
       ON
         environment.id = emissions_on_map.idEnvironment
       WHERE
+        ?? = ?
+      AND
         ?? = ?`;
-    const values = [columnNames, emissionsOnMapTable, filteringColumnName, id];
+    const values = [
+      columnNames,
+      emissionsOnMapTable,
+      filteringColumnName,
+      id,
+      'idEnvironment',
+      idEnvironment,
+    ];
     pool.query(query, values, (error, rows) => {
       if (error) {
         reject(error);

@@ -23,6 +23,6 @@ app.use(express.static(path.join(__dirname, 'client', 'build')));
 
 app.use('/', router);
 
-const PORT = config.get('port') || 8080;
+const PORT = process.env.PORT || config.get('port') || 8080;
 
 app.listen(PORT, () => console.log(`Eco app listening on port ${PORT}!`));

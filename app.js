@@ -17,9 +17,9 @@ app.use(bodyParser.json());
 app.use(corsMiddleware);
 
 app.use('/public', express.static(path.join(__dirname, 'server', 'public')));
-// if (process.env.NODE_ENV === 'production') {
-app.use(express.static(path.join(__dirname, 'client', 'build')));
-// }
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client', 'build')));
+}
 
 app.use('/', router);
 

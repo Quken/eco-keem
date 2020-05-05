@@ -1,12 +1,12 @@
-const path = require("path");
-const express = require("express");
-const bodyParser = require("body-parser");
+const path = require('path');
+const express = require('express');
+const bodyParser = require('body-parser');
 const config = require('config');
 const router = require('./server/router');
 
 const app = express();
 
-const corsMiddleware = require("./server/middlewares/cors");
+const corsMiddleware = require('./server/middlewares/cors');
 
 app.use(
   bodyParser.urlencoded({
@@ -16,13 +16,13 @@ app.use(
 app.use(bodyParser.json());
 app.use(corsMiddleware);
 
-app.use("/public", express.static(path.join(__dirname, 'server', 'public')));
+app.use('/public', express.static(path.join(__dirname, 'server', 'public')));
 
-app.use("/", router);
+app.use('/', router);
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'client', 'build')));
-}
+// if (process.env.NODE_ENV === 'production') {
+app.use(express.static(path.join(__dirname, 'client', 'build')));
+// }
 
 const PORT = config.get('port') || 8080;
 

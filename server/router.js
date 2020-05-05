@@ -1,4 +1,4 @@
-const path = require("path");
+const path = require('path');
 const express = require('express');
 const router = express.Router();
 
@@ -37,14 +37,17 @@ router.get('/elements', elementsController.getElements);
 
 router.post('/gdk', gdkController.getGdkElement);
 
-router.get('/emissionscalculations', emissionsCalculationsController.getEmissionsCalculations);
+router.get(
+  '/emissionscalculations',
+  emissionsCalculationsController.getEmissionsCalculations
+);
 
 router.get('/ownertypes', ownerTypesController.getAll);
 
-if (process.env.NODE_ENV === 'production') {
-  router.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'));
-  })
-}
+// if (process.env.NODE_ENV === 'production') {
+router.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'));
+});
+// }
 
 module.exports = router;

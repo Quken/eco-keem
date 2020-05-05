@@ -17,12 +17,11 @@ app.use(bodyParser.json());
 app.use(corsMiddleware);
 
 app.use('/public', express.static(path.join(__dirname, 'server', 'public')));
-
-app.use('/', router);
-
 // if (process.env.NODE_ENV === 'production') {
 app.use(express.static(path.join(__dirname, 'client', 'build')));
 // }
+
+app.use('/', router);
 
 const PORT = config.get('port') || 8080;
 

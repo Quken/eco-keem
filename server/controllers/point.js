@@ -3,7 +3,7 @@ const { insertEmissionOnMap, SOURCE_POI } = require('./emissions_on_map');
 
 const addPoint = (req, res) => {
   const {
-    name,
+    Name_object,
     type,
     coordinates,
     description,
@@ -14,8 +14,8 @@ const addPoint = (req, res) => {
 
   const query = `
   INSERT INTO poi 
-  (id_of_user, Name, Type, owner_type, Coord_Lat, Coord_Lng, Description, Name_object)
-  VALUES ('${id_of_user}','${name}', '${type}', '${owner_type}','${coordinates[0]}', '${coordinates[1]}', '${description}', 'TEST_STRING');
+  (id_of_user, Type, owner_type, Coord_Lat, Coord_Lng, Description, Name_object)
+  VALUES ('${id_of_user}', '${type}', '${owner_type}','${coordinates[0]}', '${coordinates[1]}', '${description}', '${Name_object}');
   `;
 
   const pointPromise = new Promise((resolve, reject) => {
@@ -48,7 +48,6 @@ const getPoint = (req, res) => {
     const query = `
     SELECT 
       id_of_user, 
-      name,
       poi.type,
       description, 
       Name_object, 
@@ -72,7 +71,6 @@ const getPoint = (req, res) => {
       rows = rows.map(
         ({
           id_of_user,
-          name,
           type,
           description,
           Name_object,
@@ -81,7 +79,6 @@ const getPoint = (req, res) => {
         }) => {
           return {
             id_of_user,
-            name,
             type,
             description,
             Name_object,
@@ -107,7 +104,7 @@ const getPoint = (req, res) => {
 const updatePoint = (req, res) => {
   const id = req.params.id;
   const {
-    name,
+    Name_object,
     description,
     type,
     emission,
@@ -117,7 +114,7 @@ const updatePoint = (req, res) => {
   const poiPromise = new Promise((resolve, reject) => {
     const tableName = 'poi';
     const updatedValues = {
-      name,
+      Name_object,
       description,
       type,
       owner_type,

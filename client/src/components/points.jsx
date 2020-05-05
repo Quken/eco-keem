@@ -31,7 +31,7 @@ export const Points = ({
         ({
           Id: id,
           coordinates,
-          name,
+          Name_object,
           Description: description,
           Image: image,
           emissions,
@@ -54,9 +54,9 @@ export const Points = ({
                 className='edit-pencil-icon'
               />
               <div className='mt-4 mb-2'>
-                {name && (
+                {Name_object && (
                   <div>
-                    <strong>Назва:</strong> {name}
+                    <strong>Назва:</strong> {Name_object}
                   </div>
                 )}
                 {description && (

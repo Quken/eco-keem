@@ -1,33 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { Dropdown, Form } from "react-bootstrap";
+import { Dropdown, Form } from 'react-bootstrap';
 
-import { TYPE_OF_OBJECT_URL, OWNER_TYPES_URL } from "../utils/constants";
-import { post, get, put } from "../utils/httpService";
-import { POINT_URL } from "../utils/constants";
+import { TYPE_OF_OBJECT_URL, OWNER_TYPES_URL } from '../utils/constants';
+import { post, get, put } from '../utils/httpService';
+import { POINT_URL } from '../utils/constants';
 
-import { VerticallyCenteredModal } from "./modal";
+import { VerticallyCenteredModal } from './modal';
 import { SubmitForm } from './submitForm';
 
-import "./submitForm.css";
+import './submitForm.css';
 
 const initialState = {
   form: {
-    name: "",
-    description: "",
+    name: '',
+    description: '',
     type: {
       id: 0,
-      name: ''
+      name: '',
     },
     ownerType: {
       id: 0,
-      type: ''
-    }
-  }
+      type: '',
+    },
+  },
 };
 
 const emptyState = {
   typeOfObject: `Оберіть тип об'єкту`,
-  ownerType: `Оберіть форму власності`
+  ownerType: `Оберіть форму власності`,
 };
 
 export const AddPointModal = ({
@@ -55,40 +55,44 @@ export const AddPointModal = ({
     setOwnerType(initialState.form.ownerType);
   };
 
-  const addPoint = emission => {
+  const addPoint = (emission) => {
     post(POINT_URL, {
-      name,
+      Name_object: name,
       description,
       type: type.id,
       coordinates,
       emission,
       id_of_user: user.id_of_user,
       owner_type_id: ownerType.id,
-    }).then(() => {
-      clearForm();
-      onHide();
-      setShouldFetchData(true);
-    }).catch(() => setShouldFetchData(false))
+    })
+      .then(() => {
+        clearForm();
+        onHide();
+        setShouldFetchData(true);
+      })
+      .catch(() => setShouldFetchData(false));
   };
 
-  const editPoint = emission => {
+  const editPoint = (emission) => {
     put(`${POINT_URL}/${pointId}`, {
-      name,
+      Name_object: name,
       description,
       type: type.id,
       owner_type_id: ownerType.id,
-      emission
-    }).then(() => {
-      clearForm();
-      onHide();
-      setShouldFetchData(true);
-      setIsEditPointMode(false);
-      setPointId(null);
-    }).catch(() => {
-      setShouldFetchData(false);
-      setIsEditPointMode(false);
-      setPointId(null);
+      emission,
     })
+      .then(() => {
+        clearForm();
+        onHide();
+        setShouldFetchData(true);
+        setIsEditPointMode(false);
+        setPointId(null);
+      })
+      .catch(() => {
+        setShouldFetchData(false);
+        setIsEditPointMode(false);
+        setPointId(null);
+      });
   };
 
   const hide = () => {
@@ -111,21 +115,28 @@ export const AddPointModal = ({
     if (isEditPointMode && pointId) {
       get(`${POINT_URL}/${pointId}`).then(({ data }) => {
         const type = types.find(({ id }) => id === data.type);
-        const ownerType = ownerTypes.find(({ id }) => id === data.owner_type.id);
+        const ownerType = ownerTypes.find(
+          ({ id }) => id === data.owner_type.id
+        );
         if (type) {
           setType(type);
         }
         if (ownerType) {
           setOwnerType(ownerType);
         }
-        setName(data.name);
+        setName(data.Name_object);
         setDescription(data.description);
-      })
+      });
     }
   }, [pointId, isEditPointMode]);
 
   return (
-    <VerticallyCenteredModal size='lg' show={show} onHide={() => hide()} header="Додати або редагувати точку">
+    <VerticallyCenteredModal
+      size='lg'
+      show={show}
+      onHide={() => hide()}
+      header='Додати або редагувати точку'
+    >
       <Form>
         <Form.Group>
           <Dropdown>
@@ -133,16 +144,17 @@ export const AddPointModal = ({
               {type.name || emptyState.typeOfObject}
             </Dropdown.Toggle>
 
-            <Dropdown.Menu className="form-dropdown">
-              {types.length && types.map(typeOfObject => (
-                <Dropdown.Item
-                  key={typeOfObject.id}
-                  active={typeOfObject === type}
-                  onClick={() => setType(typeOfObject)}
-                >
-                  {typeOfObject.name}
-                </Dropdown.Item>
-              ))}
+            <Dropdown.Menu className='form-dropdown'>
+              {types.length &&
+                types.map((typeOfObject) => (
+                  <Dropdown.Item
+                    key={typeOfObject.id}
+                    active={typeOfObject === type}
+                    onClick={() => setType(typeOfObject)}
+                  >
+                    {typeOfObject.name}
+                  </Dropdown.Item>
+                ))}
             </Dropdown.Menu>
           </Dropdown>
         </Form.Group>
@@ -154,15 +166,16 @@ export const AddPointModal = ({
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              {ownerTypes.length && ownerTypes.map(type => (
-                <Dropdown.Item
-                  key={type.id}
-                  active={type === ownerType}
-                  onClick={() => setOwnerType(type)}
-                >
-                  {type.type}
-                </Dropdown.Item>
-              ))}
+              {ownerTypes.length &&
+                ownerTypes.map((type) => (
+                  <Dropdown.Item
+                    key={type.id}
+                    active={type === ownerType}
+                    onClick={() => setOwnerType(type)}
+                  >
+                    {type.type}
+                  </Dropdown.Item>
+                ))}
             </Dropdown.Menu>
           </Dropdown>
         </Form.Group>
@@ -172,7 +185,7 @@ export const AddPointModal = ({
           <Form.Control
             type='input'
             value={name}
-            onChange={e => setName(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
           />
         </Form.Group>
 
@@ -182,14 +195,15 @@ export const AddPointModal = ({
             as='textarea'
             rows='3'
             value={description}
-            onChange={e => setDescription(e.target.value)}
+            onChange={(e) => setDescription(e.target.value)}
           />
         </Form.Group>
 
-        {isEditPointMode
-          ? <SubmitForm onSave={editPoint} />
-          : <SubmitForm onSave={addPoint} />
-        }
+        {isEditPointMode ? (
+          <SubmitForm onSave={editPoint} />
+        ) : (
+          <SubmitForm onSave={addPoint} />
+        )}
       </Form>
     </VerticallyCenteredModal>
   );

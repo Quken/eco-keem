@@ -20,12 +20,16 @@ const getImages = () => {
         reject(error);
       }
 
-      const mappedIcons = rows && rows.map(({ id, Image_Name }) => [id, `${PUBLIC_IMAGES_URL}/tez.png`]);
+      const mappedIcons =
+        rows &&
+        rows.map(({ id, Image_Name }) => [
+          id,
+          `${PUBLIC_IMAGES_URL}/${Image_Name}`,
+        ]);
 
       resolve(new Map(mappedIcons));
     });
   });
-
 };
 
 module.exports = getImages;

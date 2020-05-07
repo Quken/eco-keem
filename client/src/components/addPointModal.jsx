@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Dropdown, Form } from 'react-bootstrap';
+import readXlsxFile from 'read-excel-file';
 
 import { TYPE_OF_OBJECT_URL, OWNER_TYPES_URL } from '../utils/constants';
 import { post, get, put } from '../utils/httpService';
@@ -22,6 +23,7 @@ const initialState = {
       id: 0,
       type: '',
     },
+    preloadedEmission: null,
   },
 };
 
@@ -48,11 +50,18 @@ export const AddPointModal = ({
   const [types, setTypes] = useState([]);
   const [ownerTypes, setOwnerTypes] = useState([]);
 
+  // we have bug with edit -> preload -> edit. It's because we should get call on every edit.
+  // and we clearing form after preseletion -> clear
+  const [preloadedEmission, setPreloadedEmission] = useState(
+    initialState.form.preloadedEmission
+  );
+
   const clearForm = () => {
     setName(initialState.form.name);
     setDescription(initialState.form.description);
     setType(initialState.form.type);
     setOwnerType(initialState.form.ownerType);
+    setPreloadedEmission(initialState.form.preloadedEmission);
   };
 
   const addPoint = (emission) => {
@@ -130,6 +139,73 @@ export const AddPointModal = ({
     }
   }, [pointId, isEditPointMode]);
 
+  const fileUpload = (file) => {
+    readXlsxFile(file).then(setModalFields);
+  };
+
+  const setModalFields = (rows) => {
+    try {
+      let preloadedEmission = null;
+
+      rows.forEach(([columnName, columnValue]) => {
+        switch (columnName) {
+          case 'OBJECT TYPE':
+            {
+              const type = types.find(({ name }) => name === columnValue);
+              setType(type);
+            }
+            break;
+          case 'OWNER TYPE':
+            {
+              const type = ownerTypes.find(({ type }) => type === columnValue);
+              setOwnerType(type);
+            }
+            break;
+          case 'NAME':
+            {
+              setName(columnValue);
+            }
+            break;
+          case 'DESCRIPTION':
+            {
+              setDescription(columnValue);
+            }
+            break;
+
+          case 'DATE': {
+            preloadedEmission = { ...preloadedEmission, date: columnValue };
+          }
+          case 'ELEMENT': {
+            preloadedEmission = {
+              ...preloadedEmission,
+              elementName: columnValue,
+            };
+          }
+          case 'AVERAGE VALUE': {
+            preloadedEmission = {
+              ...preloadedEmission,
+              averageValue: columnValue,
+            };
+          }
+          case 'MAXIMUM VALUE': {
+            preloadedEmission = {
+              ...preloadedEmission,
+              maximumValue: columnValue,
+            };
+          }
+
+          default:
+            return;
+        }
+      });
+
+      setPreloadedEmission(preloadedEmission);
+    } catch (error) {
+      alert(error.toString());
+      console.error(error);
+    }
+  };
+
   return (
     <VerticallyCenteredModal
       size='lg'
@@ -138,6 +214,13 @@ export const AddPointModal = ({
       header='Додати або редагувати точку'
     >
       <Form>
+        <Form.Group>
+          <input
+            type='file'
+            onChange={(event) => fileUpload(event.target.files[0])}
+          />
+        </Form.Group>
+
         <Form.Group>
           <Dropdown>
             <Dropdown.Toggle size='sm' variant='success'>
@@ -200,9 +283,12 @@ export const AddPointModal = ({
         </Form.Group>
 
         {isEditPointMode ? (
-          <SubmitForm onSave={editPoint} />
+          <SubmitForm
+            onSave={editPoint}
+            preloadedEmission={preloadedEmission}
+          />
         ) : (
-          <SubmitForm onSave={addPoint} />
+          <SubmitForm onSave={addPoint} preloadedEmission={preloadedEmission} />
         )}
       </Form>
     </VerticallyCenteredModal>

@@ -4,12 +4,12 @@
   "description": "``` npm install npm start ```",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "cross-env NODE_ENV=production node app.js",
     "server": "nodemon app.js",
     "client": "cd ./client && npm run start",
     "client:install": "cd ./client && npm install",
     "client:build": "cd ./client && npm run build",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "dev": "cross-env NODE_ENV=development concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "npm install && cd ./client && npm install && npm run build"
   },
   "repository": {
@@ -24,6 +24,7 @@
   "homepage": "https://github.com/Quken/eco-keemE#readme",
   "dependencies": {
     "config": "^3.3.1",
+    "cross-env": "^7.0.2",
     "express": "^4.17.1",
     "mysql": "^2.17.1",
     "path": "^0.12.7"

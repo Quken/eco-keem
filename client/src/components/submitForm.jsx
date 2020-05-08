@@ -80,8 +80,6 @@ export const SubmitForm = ({ onSave, preloadedEmission }) => {
   };
 
   const selectElement = (element) => {
-    console.log(element);
-    debugger;
     setElement(element);
     setMeasure(element.measure);
 
@@ -113,7 +111,6 @@ export const SubmitForm = ({ onSave, preloadedEmission }) => {
 
   useEffect(() => {
     if (preloadedEmission) {
-      debugger;
       try {
         const {
           date,

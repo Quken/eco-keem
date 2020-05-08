@@ -90,7 +90,6 @@ const getPoints = (req, res) => {
       return Promise.all(pointsPromises).then((points) => res.send(points));
     })
     .catch((error) => {
-      console.log(error);
       res.status(500).send({
         message: error,
       });

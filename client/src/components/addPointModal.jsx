@@ -50,8 +50,6 @@ export const AddPointModal = ({
   const [types, setTypes] = useState([]);
   const [ownerTypes, setOwnerTypes] = useState([]);
 
-  // we have bug with edit -> preload -> edit. It's because we should get call on every edit.
-  // and we clearing form after preseletion -> clear
   const [preloadedEmission, setPreloadedEmission] = useState(
     initialState.form.preloadedEmission
   );
@@ -62,6 +60,8 @@ export const AddPointModal = ({
     setType(initialState.form.type);
     setOwnerType(initialState.form.ownerType);
     setPreloadedEmission(initialState.form.preloadedEmission);
+    setIsEditPointMode(false);
+    setPointId(null);
   };
 
   const addPoint = (emission) => {
@@ -101,13 +101,13 @@ export const AddPointModal = ({
         setShouldFetchData(false);
         setIsEditPointMode(false);
         setPointId(null);
+        setIsEditPointMode(false);
+        setPointId(null);
       });
   };
 
   const hide = () => {
-    if (!isEditPointMode) {
-      clearForm();
-    }
+    clearForm();
     onHide();
   };
 
@@ -144,60 +144,60 @@ export const AddPointModal = ({
   };
 
   const setModalFields = (rows) => {
+    let preloadedEmission = null;
+
+    const actionsMap = new Map([
+      [
+        'OBJECT TYPE',
+        (columnValue) => {
+          const type = types.find(({ name }) => name === columnValue);
+          setType(type);
+        },
+      ],
+      [
+        'OWNER TYPE',
+        (columnValue) => {
+          const type = ownerTypes.find(({ type }) => type === columnValue);
+          setOwnerType(type);
+        },
+      ],
+      ['NAME', (columnValue) => setName(columnValue)],
+      ['DESCRIPTION', (columnValue) => setDescription(columnValue)],
+      [
+        'DATE',
+        (columnValue) =>
+          (preloadedEmission = { ...preloadedEmission, date: columnValue }),
+      ],
+      [
+        'ELEMENT',
+        (columnValue) =>
+          (preloadedEmission = {
+            ...preloadedEmission,
+            elementName: columnValue,
+          }),
+      ],
+      [
+        'AVERAGE VALUE',
+        (columnValue) =>
+          (preloadedEmission = {
+            ...preloadedEmission,
+            averageValue: columnValue,
+          }),
+      ],
+      [
+        'MAXIMUM VALUE',
+        (columnValue) =>
+          (preloadedEmission = {
+            ...preloadedEmission,
+            maximumValue: columnValue,
+          }),
+      ],
+    ]);
+
     try {
-      let preloadedEmission = null;
-
-      rows.forEach(([columnName, columnValue]) => {
-        switch (columnName) {
-          case 'OBJECT TYPE':
-            {
-              const type = types.find(({ name }) => name === columnValue);
-              setType(type);
-            }
-            break;
-          case 'OWNER TYPE':
-            {
-              const type = ownerTypes.find(({ type }) => type === columnValue);
-              setOwnerType(type);
-            }
-            break;
-          case 'NAME':
-            {
-              setName(columnValue);
-            }
-            break;
-          case 'DESCRIPTION':
-            {
-              setDescription(columnValue);
-            }
-            break;
-
-          case 'DATE': {
-            preloadedEmission = { ...preloadedEmission, date: columnValue };
-          }
-          case 'ELEMENT': {
-            preloadedEmission = {
-              ...preloadedEmission,
-              elementName: columnValue,
-            };
-          }
-          case 'AVERAGE VALUE': {
-            preloadedEmission = {
-              ...preloadedEmission,
-              averageValue: columnValue,
-            };
-          }
-          case 'MAXIMUM VALUE': {
-            preloadedEmission = {
-              ...preloadedEmission,
-              maximumValue: columnValue,
-            };
-          }
-
-          default:
-            return;
-        }
-      });
+      rows.forEach(([columnName, columnValue]) =>
+        actionsMap.get(columnName)(columnValue)
+      );
 
       setPreloadedEmission(preloadedEmission);
     } catch (error) {
@@ -214,12 +214,13 @@ export const AddPointModal = ({
       header='Додати або редагувати точку'
     >
       <Form>
-        {/* <Form.Group>
+        <Form.Group>
           <input
             type='file'
+            accept='.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
             onChange={(event) => fileUpload(event.target.files[0])}
           />
-        </Form.Group> */}
+        </Form.Group>
 
         <Form.Group>
           <Dropdown>

@@ -48,6 +48,8 @@ export const AddPolygonModal = ({
     setColor(initialState.form.brushColor);
     setName(initialState.form.name);
     setDescription(initialState.form.description);
+    setIsEditPolygonMode(false);
+    setPolygonId(null);
   };
 
   useEffect(() => {
@@ -132,9 +134,7 @@ export const AddPolygonModal = ({
   };
 
   const hide = () => {
-    if (!isEditPolygonMode) {
-      clearForm();
-    }
+    clearForm();
     onHide();
   };
 
@@ -156,7 +156,10 @@ export const AddPolygonModal = ({
           <br />
           <SketchPicker
             color={color}
-            onChangeComplete={({ rgb }) => setColor(rgb)}
+            onChangeComplete={({ rgb }) => {
+              console.log(rgb);
+              setColor(rgb);
+            }}
           />
         </Form.Group>
 

@@ -11,7 +11,7 @@ export const Auth = (props) => {
   const loginUser = () => {
     post(LOGIN_URL, {
       login: login,
-      password: password
+      password: password,
     }).then(({ data: user }) => {
       if (user) {
         props.onHide();
@@ -29,26 +29,26 @@ export const Auth = (props) => {
         <Col xs={6}>
           <Form>
             <Form.Group controlId='formUsername'>
-              <Form.Label>Username</Form.Label>
+              <Form.Label>Логін</Form.Label>
               <Form.Control
                 type='input'
-                placeholder='Enter username'
+                placeholder='Введіть логін'
                 value={login}
                 onChange={(e) => setLogin(e.target.value)}
               />
             </Form.Group>
 
             <Form.Group controlId='formBasicPassword'>
-              <Form.Label>Password</Form.Label>
+              <Form.Label>Пароль</Form.Label>
               <Form.Control
                 type='password'
-                placeholder='Password'
+                placeholder='Введіть пароль'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Form.Group>
             <Button variant='primary' onClick={loginUser}>
-              Login
+              Увійти
             </Button>
           </Form>
         </Col>

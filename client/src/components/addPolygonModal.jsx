@@ -147,9 +147,7 @@ export const AddPolygonModal = ({
     >
       <Form>
         <Form.Group>
-          <Form.Label>
-            Choose color of the polygon and line thickness
-          </Form.Label>
+          <Form.Label>Оберить колір полігона та товщину лінії</Form.Label>
           <Form.Control
             type='number'
             value={lineThickness}
@@ -163,7 +161,7 @@ export const AddPolygonModal = ({
         </Form.Group>
 
         <Form.Group>
-          <Form.Label>Enter name</Form.Label>
+          <Form.Label>Введіть ім'я полігону</Form.Label>
           <Form.Control
             type='input'
             value={name}
@@ -172,7 +170,7 @@ export const AddPolygonModal = ({
         </Form.Group>
 
         <Form.Group>
-          <Form.Label>Enter description</Form.Label>
+          <Form.Label>Додайте опис полігону</Form.Label>
           <Form.Control
             as='textarea'
             rows='3'

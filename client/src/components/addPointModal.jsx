@@ -214,12 +214,12 @@ export const AddPointModal = ({
       header='Додати або редагувати точку'
     >
       <Form>
-        <Form.Group>
+        {/* <Form.Group>
           <input
             type='file'
             onChange={(event) => fileUpload(event.target.files[0])}
           />
-        </Form.Group>
+        </Form.Group> */}
 
         <Form.Group>
           <Dropdown>
@@ -264,7 +264,7 @@ export const AddPointModal = ({
         </Form.Group>
 
         <Form.Group>
-          <Form.Label>Enter name</Form.Label>
+          <Form.Label>Введіть імя</Form.Label>
           <Form.Control
             type='input'
             value={name}
@@ -273,7 +273,7 @@ export const AddPointModal = ({
         </Form.Group>
 
         <Form.Group>
-          <Form.Label>Enter description</Form.Label>
+          <Form.Label>Введіть опис</Form.Label>
           <Form.Control
             as='textarea'
             rows='3'

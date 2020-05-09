@@ -43,7 +43,7 @@ router.get(
 );
 
 router.get('/ownertypes', ownerTypesController.getAll);
-console.log(process.env.NODE_ENV);
+
 if (process.env.NODE_ENV === 'production') {
   router.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'));

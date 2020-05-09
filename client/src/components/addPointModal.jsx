@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Dropdown, Form } from 'react-bootstrap';
+import readXlsxFile from 'read-excel-file';
 
 import { TYPE_OF_OBJECT_URL, OWNER_TYPES_URL } from '../utils/constants';
 import { post, get, put } from '../utils/httpService';
@@ -23,6 +24,7 @@ const initialState = {
       type: '',
     },
   },
+  preloadedEmission: null,
 };
 
 const emptyState = {
@@ -48,11 +50,18 @@ export const AddPointModal = ({
   const [types, setTypes] = useState([]);
   const [ownerTypes, setOwnerTypes] = useState([]);
 
+  const [preloadedEmission, setPreloadedEmission] = useState(
+    initialState.preloadedEmission
+  );
+
   const clearForm = () => {
     setName(initialState.form.name);
     setDescription(initialState.form.description);
     setType(initialState.form.type);
     setOwnerType(initialState.form.ownerType);
+    setPreloadedEmission(initialState.preloadedEmission);
+    setIsEditPointMode(false);
+    setPointId(null);
   };
 
   const addPoint = (emission) => {
@@ -92,13 +101,13 @@ export const AddPointModal = ({
         setShouldFetchData(false);
         setIsEditPointMode(false);
         setPointId(null);
+        setIsEditPointMode(false);
+        setPointId(null);
       });
   };
 
   const hide = () => {
-    if (!isEditPointMode) {
-      clearForm();
-    }
+    clearForm();
     onHide();
   };
 
@@ -130,6 +139,73 @@ export const AddPointModal = ({
     }
   }, [pointId, isEditPointMode]);
 
+  const fileUpload = (file) => {
+    readXlsxFile(file).then(setModalFields);
+  };
+
+  const setModalFields = (rows) => {
+    let preloadedEmission = null;
+
+    const actionsMap = new Map([
+      [
+        'OBJECT TYPE',
+        (columnValue) => {
+          const type = types.find(({ name }) => name === columnValue);
+          setType(type);
+        },
+      ],
+      [
+        'OWNER TYPE',
+        (columnValue) => {
+          const type = ownerTypes.find(({ type }) => type === columnValue);
+          setOwnerType(type);
+        },
+      ],
+      ['NAME', (columnValue) => setName(columnValue)],
+      ['DESCRIPTION', (columnValue) => setDescription(columnValue)],
+      [
+        'DATE',
+        (columnValue) =>
+          (preloadedEmission = { ...preloadedEmission, date: columnValue }),
+      ],
+      [
+        'ELEMENT',
+        (columnValue) =>
+          (preloadedEmission = {
+            ...preloadedEmission,
+            elementName: columnValue,
+          }),
+      ],
+      [
+        'AVERAGE VALUE',
+        (columnValue) =>
+          (preloadedEmission = {
+            ...preloadedEmission,
+            averageValue: columnValue,
+          }),
+      ],
+      [
+        'MAXIMUM VALUE',
+        (columnValue) =>
+          (preloadedEmission = {
+            ...preloadedEmission,
+            maximumValue: columnValue,
+          }),
+      ],
+    ]);
+
+    try {
+      rows.forEach(([columnName, columnValue]) =>
+        actionsMap.get(columnName)(columnValue)
+      );
+
+      setPreloadedEmission(preloadedEmission);
+    } catch (error) {
+      alert('Помилка. Неправильні дані');
+      console.error(error);
+    }
+  };
+
   return (
     <VerticallyCenteredModal
       size='lg'
@@ -138,6 +214,14 @@ export const AddPointModal = ({
       header='Додати або редагувати точку'
     >
       <Form>
+        <Form.Group>
+          <input
+            type='file'
+            accept='.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
+            onChange={(event) => fileUpload(event.target.files[0])}
+          />
+        </Form.Group>
+
         <Form.Group>
           <Dropdown>
             <Dropdown.Toggle size='sm' variant='success'>
@@ -181,7 +265,7 @@ export const AddPointModal = ({
         </Form.Group>
 
         <Form.Group>
-          <Form.Label>Enter name</Form.Label>
+          <Form.Label>Введіть імя</Form.Label>
           <Form.Control
             type='input'
             value={name}
@@ -190,7 +274,7 @@ export const AddPointModal = ({
         </Form.Group>
 
         <Form.Group>
-          <Form.Label>Enter description</Form.Label>
+          <Form.Label>Введіть опис</Form.Label>
           <Form.Control
             as='textarea'
             rows='3'
@@ -200,9 +284,12 @@ export const AddPointModal = ({
         </Form.Group>
 
         {isEditPointMode ? (
-          <SubmitForm onSave={editPoint} />
+          <SubmitForm
+            onSave={editPoint}
+            preloadedEmission={preloadedEmission}
+          />
         ) : (
-          <SubmitForm onSave={addPoint} />
+          <SubmitForm onSave={addPoint} preloadedEmission={preloadedEmission} />
         )}
       </Form>
     </VerticallyCenteredModal>

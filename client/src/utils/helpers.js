@@ -144,3 +144,31 @@ export const formatEmissionsLineChart = (emissionCalculations) => {
     return obj;
   }, {});
 };
+
+export const extractRGBA = (rgbaString) => {
+  try {
+    if (!/rgba/gi.test(rgbaString)) {
+      throw new Error('Неправильний формат для кольору');
+    }
+
+    const colors = rgbaString
+      .match(/\d*\.?\d+/gi)
+      .map((colorValue) => +colorValue);
+
+    if (colors.length !== 4) {
+      throw new Error('Кольори заповнені неправильно');
+    }
+
+    const [r, g, b, a] = colors;
+
+    return {
+      r,
+      g,
+      b,
+      a,
+    };
+  } catch (error) {
+    console.error(error);
+    alert(error.message);
+  }
+};

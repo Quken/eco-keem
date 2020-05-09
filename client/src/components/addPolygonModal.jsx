@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { SketchPicker } from 'react-color';
 import { Form } from 'react-bootstrap';
+import readXlsxFile from 'read-excel-file';
 
 import { post, get, put } from '../utils/httpService';
 import { POLYGON_URL } from '../utils/constants';
@@ -8,6 +9,7 @@ import { POLYGON_URL } from '../utils/constants';
 import { VerticallyCenteredModal } from './modal';
 import { SubmitForm } from './submitForm';
 import { useEffect } from 'react';
+import { extractRGBA } from '../utils/helpers';
 
 const initialState = {
   form: {
@@ -22,6 +24,7 @@ const initialState = {
     type: 'poligon',
     description: '',
   },
+  preloadedEmission: null,
 };
 
 export const AddPolygonModal = ({
@@ -42,12 +45,17 @@ export const AddPolygonModal = ({
   const [color, setColor] = useState(initialState.form.brushColor);
   const [name, setName] = useState(initialState.form.name);
   const [description, setDescription] = useState(initialState.form.description);
-
+  const [preloadedEmission, setPreloadedEmission] = useState(
+    initialState.preloadedEmission
+  );
   const clearForm = () => {
     setLineThickness(initialState.form.lineThickness);
     setColor(initialState.form.brushColor);
     setName(initialState.form.name);
     setDescription(initialState.form.description);
+    setPreloadedEmission(initialState.preloadedEmission);
+    setIsEditPolygonMode(false);
+    setPolygonId(null);
   };
 
   useEffect(() => {
@@ -132,10 +140,63 @@ export const AddPolygonModal = ({
   };
 
   const hide = () => {
-    if (!isEditPolygonMode) {
-      clearForm();
-    }
+    clearForm();
     onHide();
+  };
+
+  const setModalFields = (rows) => {
+    let preloadedEmission = null;
+
+    const actionsMap = new Map([
+      ['LINE THICKNESS', (columnValue) => setLineThickness(columnValue)],
+      ['COLOR', (columnValue) => setColor(extractRGBA(columnValue))],
+      ['NAME', (columnValue) => setName(columnValue)],
+      ['DESCRIPTION', (columnValue) => setDescription(columnValue)],
+      [
+        'DATE',
+        (columnValue) =>
+          (preloadedEmission = { ...preloadedEmission, date: columnValue }),
+      ],
+      [
+        'ELEMENT',
+        (columnValue) =>
+          (preloadedEmission = {
+            ...preloadedEmission,
+            elementName: columnValue,
+          }),
+      ],
+      [
+        'AVERAGE VALUE',
+        (columnValue) =>
+          (preloadedEmission = {
+            ...preloadedEmission,
+            averageValue: columnValue,
+          }),
+      ],
+      [
+        'MAXIMUM VALUE',
+        (columnValue) =>
+          (preloadedEmission = {
+            ...preloadedEmission,
+            maximumValue: columnValue,
+          }),
+      ],
+    ]);
+
+    try {
+      rows.forEach(([columnName, columnValue]) =>
+        actionsMap.get(columnName)(columnValue)
+      );
+
+      setPreloadedEmission(preloadedEmission);
+    } catch (error) {
+      alert('Помилка. Неправильні дані');
+      console.error(error);
+    }
+  };
+
+  const fileUpload = (file) => {
+    readXlsxFile(file).then(setModalFields);
   };
 
   return (
@@ -147,9 +208,14 @@ export const AddPolygonModal = ({
     >
       <Form>
         <Form.Group>
-          <Form.Label>
-            Choose color of the polygon and line thickness
-          </Form.Label>
+          <input
+            type='file'
+            accept='.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
+            onChange={(event) => fileUpload(event.target.files[0])}
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Оберить колір полігона та товщину лінії</Form.Label>
           <Form.Control
             type='number'
             value={lineThickness}
@@ -163,7 +229,7 @@ export const AddPolygonModal = ({
         </Form.Group>
 
         <Form.Group>
-          <Form.Label>Enter name</Form.Label>
+          <Form.Label>Введіть ім'я полігону</Form.Label>
           <Form.Control
             type='input'
             value={name}
@@ -172,7 +238,7 @@ export const AddPolygonModal = ({
         </Form.Group>
 
         <Form.Group>
-          <Form.Label>Enter description</Form.Label>
+          <Form.Label>Додайте опис полігону</Form.Label>
           <Form.Control
             as='textarea'
             rows='3'
@@ -181,9 +247,15 @@ export const AddPolygonModal = ({
           />
         </Form.Group>
         {isEditPolygonMode ? (
-          <SubmitForm onSave={editPolygon} />
+          <SubmitForm
+            onSave={editPolygon}
+            preloadedEmission={preloadedEmission}
+          />
         ) : (
-          <SubmitForm onSave={addPolygon} />
+          <SubmitForm
+            onSave={addPolygon}
+            preloadedEmission={preloadedEmission}
+          />
         )}
       </Form>
     </VerticallyCenteredModal>

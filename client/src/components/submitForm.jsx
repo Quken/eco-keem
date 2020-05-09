@@ -27,7 +27,7 @@ const initialState = {
   },
 };
 
-export const SubmitForm = ({ onSave }) => {
+export const SubmitForm = ({ onSave, preloadedEmission }) => {
   const { environmentsInfo } = useContext(EnvironmentsInfoContext);
 
   const [isActive, setIsActive] = useState(false);
@@ -53,7 +53,7 @@ export const SubmitForm = ({ onSave }) => {
   };
 
   const onClick = () => {
-    clearForm();
+    // clearForm();
     setIsActive(!isActive);
   };
 
@@ -97,17 +97,50 @@ export const SubmitForm = ({ onSave }) => {
     });
   };
 
-  const handleDate = (e) => {
-    if (new Date(e.target.value) > now) {
+  const handleDate = (date) => {
+    if (new Date(date) > now) {
       setDate(`${year}-${month}-${day}`);
     } else {
-      setDate(e.target.value);
+      setDate(date);
     }
   };
 
   useEffect(() => {
     get(ELEMENTS_URL).then(({ data }) => setElements(data));
   }, []);
+
+  useEffect(() => {
+    if (preloadedEmission) {
+      try {
+        const {
+          date,
+          elementName,
+          maximumValue,
+          averageValue,
+        } = preloadedEmission;
+
+        const formattedDate = `${date.getFullYear()}-${(
+          '0' +
+          (now.getMonth() + 1)
+        ).slice(-2)}-${date.getDate()}`;
+
+        handleDate(formattedDate);
+
+        const element = elements.find(
+          ({ short_name }) => short_name === elementName
+        );
+
+        selectElement(element);
+        setAvgValue(+averageValue);
+        setMaxValue(+maximumValue);
+
+        setIsActive(true);
+      } catch (error) {
+        alert(error.toString());
+        console.error(error);
+      }
+    }
+  }, [preloadedEmission]);
 
   return (
     <>
@@ -118,7 +151,11 @@ export const SubmitForm = ({ onSave }) => {
         <>
           <Form.Group>
             <Form.Label>Оберіть дату</Form.Label>
-            <Form.Control type='date' value={date} onChange={handleDate} />
+            <Form.Control
+              type='date'
+              value={date}
+              onChange={(e) => handleDate(e.target.value)}
+            />
           </Form.Group>
 
           <Form.Group>

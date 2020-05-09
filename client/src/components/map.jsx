@@ -51,8 +51,8 @@ const initialState = {
 
 const buttonText = (geographicalObj, isModeEnabled) =>
   isModeEnabled
-    ? `Disable add ${geographicalObj} mode`
-    : `Add ${geographicalObj} to the map`;
+    ? `Виключити режим додавання`
+    : `Додати ${geographicalObj} на карту`;
 
 export const MapView = ({ user }) => {
   const [filteredItems, setFilteredItems] = useState(
@@ -230,7 +230,7 @@ export const MapView = ({ user }) => {
             }
             onClick={() => setAddPointMode(!isAddPointModeEnabled)}
           >
-            {buttonText('point', isAddPointModeEnabled)}
+            {buttonText('точку', isAddPointModeEnabled)}
           </Button>
           <Button
             className='ml-3'
@@ -240,7 +240,7 @@ export const MapView = ({ user }) => {
             }
             onClick={() => setAddPolygonMode(!isAddPolygonModeEnabled)}
           >
-            {buttonText('polygon', isAddPolygonModeEnabled)}
+            {buttonText('полігон', isAddPolygonModeEnabled)}
           </Button>
           {isAddPolygonModeEnabled && (
             <Button

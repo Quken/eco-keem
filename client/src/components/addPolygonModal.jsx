@@ -208,6 +208,7 @@ export const AddPolygonModal = ({
     >
       <Form>
         <Form.Group>
+          <div>Загрузити дані із Excel файла</div>
           <input
             type='file'
             accept='.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'

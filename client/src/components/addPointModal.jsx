@@ -23,8 +23,8 @@ const initialState = {
       id: 0,
       type: '',
     },
-    preloadedEmission: null,
   },
+  preloadedEmission: null,
 };
 
 const emptyState = {
@@ -51,7 +51,7 @@ export const AddPointModal = ({
   const [ownerTypes, setOwnerTypes] = useState([]);
 
   const [preloadedEmission, setPreloadedEmission] = useState(
-    initialState.form.preloadedEmission
+    initialState.preloadedEmission
   );
 
   const clearForm = () => {
@@ -59,7 +59,7 @@ export const AddPointModal = ({
     setDescription(initialState.form.description);
     setType(initialState.form.type);
     setOwnerType(initialState.form.ownerType);
-    setPreloadedEmission(initialState.form.preloadedEmission);
+    setPreloadedEmission(initialState.preloadedEmission);
     setIsEditPointMode(false);
     setPointId(null);
   };
@@ -201,7 +201,7 @@ export const AddPointModal = ({
 
       setPreloadedEmission(preloadedEmission);
     } catch (error) {
-      alert(error.toString());
+      alert('Помилка. Неправильні дані');
       console.error(error);
     }
   };

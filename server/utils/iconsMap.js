@@ -24,7 +24,7 @@ const getImages = () => {
         rows &&
         rows.map(({ id, Image_Name }) => [
           id,
-          `${PUBLIC_IMAGES_URL}/${'tez.png'}`,
+          `${PUBLIC_IMAGES_URL}/${Image_Name}`,
         ]);
 
       resolve(new Map(mappedIcons));

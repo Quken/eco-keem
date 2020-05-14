@@ -7,9 +7,10 @@ import './App.css';
 import { MenuView } from './components/menu';
 import { Home } from './components/home';
 import { MapView } from './components/map';
+import { Dictionary } from './components/dictionary';
 
 import { get } from './utils/httpService';
-import { ENVIRONMENTS_URL } from './utils/constants';
+import { ENVIRONMENTS_URL, TABLE_NAMES } from './utils/constants';
 
 import {
   EnvironmentsInfoContext,
@@ -48,6 +49,7 @@ export const App = () => {
           </Switch>
         </EnvironmentsInfoContext.Provider>
       </div>
+      <Dictionary tableName={TABLE_NAMES.elements} />
     </Router>
   );
 };

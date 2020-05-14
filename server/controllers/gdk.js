@@ -17,12 +17,19 @@ const getGdkElement = (req, res) => {
       ?? = ?
     ;`;
 
-  const values = [columnNames, tableName, 'code', code, 'environment', environment];
+  const values = [
+    columnNames,
+    tableName,
+    'code',
+    code,
+    'environment',
+    environment,
+  ];
 
   return pool.query(query, values, (error, rows) => {
     if (error) {
       return res.status(500).send({
-        message: error
+        message: error,
       });
     }
 
@@ -39,6 +46,28 @@ const getGdkElement = (req, res) => {
   });
 };
 
+const getAllGdkElements = (req, res) => {
+  const query = `
+    SELECT 
+      *
+    FROM 
+      ??
+    ;`;
+
+  const values = [tableName];
+
+  return pool.query(query, values, (error, rows) => {
+    if (error) {
+      return res.status(500).send({
+        message: error,
+      });
+    }
+
+    return res.send(JSON.stringify(rows));
+  });
+};
+
 module.exports = {
-  getGdkElement
+  getGdkElement,
+  getAllGdkElements,
 };

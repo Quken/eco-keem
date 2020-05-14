@@ -1,7 +1,6 @@
 const pool = require('../../db-config/mysql-config');
 
 const getTypes = (req, res) => {
-
   const query = `
   SELECT 
     ??
@@ -9,24 +8,22 @@ const getTypes = (req, res) => {
     ??;
   `;
 
-  const values = [
-    ['Id', 'Name'],
-    'type_of_object',
-  ];
+  const values = [['Id', 'Name', 'Image_Name'], 'type_of_object'];
 
-  return pool.query(query, values,(error, rows) => {
+  return pool.query(query, values, (error, rows) => {
     if (error) {
       return res.status(500).send({
-        message: error
+        message: error,
       });
     }
 
     if (rows.length) {
-      const mappedTypes = rows.map(({ Id, Name }) => {
+      const mappedTypes = rows.map(({ Id, Name, Image_Name }) => {
         return {
           id: Id,
-          name: Name
-        }
+          name: Name,
+          imageName: Image_Name,
+        };
       });
 
       return res.send(JSON.stringify(mappedTypes));
@@ -34,7 +31,6 @@ const getTypes = (req, res) => {
   });
 };
 
-
 module.exports = {
-  getTypes
+  getTypes,
 };

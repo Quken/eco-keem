@@ -1,14 +1,14 @@
 const pool = require('../../db-config/mysql-config');
 
-const tableName = 'elements';
+const tableName = 'tax_values';
 
-const getElements = (req, res) => {
+const getTaxValues = (req, res) => {
   const query = `
-    SELECT 
-      *
-    FROM 
-      ??
-    ;`;
+  SELECT 
+    *
+  FROM 
+    ??;
+  `;
 
   const values = [tableName];
 
@@ -19,10 +19,12 @@ const getElements = (req, res) => {
       });
     }
 
-    return res.send(JSON.stringify(rows));
+    if (rows.length) {
+      return res.send(JSON.stringify(rows));
+    }
   });
 };
 
 module.exports = {
-  getElements,
+  getTaxValues,
 };

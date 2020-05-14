@@ -13,6 +13,7 @@ const elementsController = require('./controllers/elements');
 const gdkController = require('./controllers/gdk');
 const emissionsCalculationsController = require('./controllers/emissionsCalculations');
 const ownerTypesController = require('./controllers/ownerTypes');
+const taxValuesController = require('./controllers/taxValues');
 
 router.post('/login', authController.login);
 
@@ -35,6 +36,7 @@ router.get('/environments', environmentsController.getEnvironments);
 
 router.get('/elements', elementsController.getElements);
 
+router.get('/gdk', gdkController.getAllGdkElements);
 router.post('/gdk', gdkController.getGdkElement);
 
 router.get(
@@ -43,6 +45,8 @@ router.get(
 );
 
 router.get('/ownertypes', ownerTypesController.getAll);
+
+router.get('/taxvalues', taxValuesController.getTaxValues);
 
 if (process.env.NODE_ENV === 'production') {
   router.get('*', (req, res) => {

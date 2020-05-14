@@ -4,7 +4,7 @@ const {
   insertEmissionOnMap,
   getEmissionsOnMap,
   SOURCE_POLYGON,
-} = require('./emissions_on_map');
+} = require('./emissionsOnMap');
 
 const mapPolygonPoints = (polygonPoints, idOfPolygon) => {
   return polygonPoints

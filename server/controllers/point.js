@@ -1,5 +1,5 @@
 const pool = require('../../db-config/mysql-config');
-const { insertEmissionOnMap, SOURCE_POI } = require('./emissions_on_map');
+const { insertEmissionOnMap, SOURCE_POI } = require('./emissionsOnMap');
 
 const addPoint = (req, res) => {
   const {

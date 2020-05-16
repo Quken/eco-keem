@@ -1,13 +1,15 @@
 import React from 'react';
+import { useContext } from 'react';
+import { Button, NavDropdown } from 'react-bootstrap';
+import Nav from 'react-bootstrap/Nav';
 import { useHistory } from 'react-router-dom';
 
+import { TABLE_NAMES } from '../utils/constants';
+
 import { Login } from './login';
-import Nav from 'react-bootstrap/Nav';
-import { Button, NavDropdown } from 'react-bootstrap';
-import { useContext } from 'react';
 import { EnvironmentsInfoContext } from './context/environmentsInfoContext';
 
-export const MenuView = ({ user, setUser }) => {
+export const MenuView = ({ user, setUser, dictionary, setDictionary }) => {
   const history = useHistory();
 
   const { environmentsInfo, setEnvironmentsInfo } = useContext(
@@ -30,6 +32,11 @@ export const MenuView = ({ user, setUser }) => {
     });
 
     history.push('/earth');
+  };
+
+  const selectDictionary = (name) => {
+    setDictionary(name);
+    history.push('/dictionary');
   };
 
   const isActive = (id) => {
@@ -62,6 +69,17 @@ export const MenuView = ({ user, setUser }) => {
               onClick={() => selectEnvironment(id)}
               key={id}
               active={isActive(id)}
+            >
+              {name}
+            </NavDropdown.Item>
+          ))}
+        </NavDropdown>
+        <NavDropdown title='Довідники'>
+          {Object.values(TABLE_NAMES).map((name, index) => (
+            <NavDropdown.Item
+              onClick={() => selectDictionary(name)}
+              key={index}
+              active={dictionary === name}
             >
               {name}
             </NavDropdown.Item>

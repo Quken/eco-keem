@@ -7,6 +7,8 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import { URL_FROM_TABLE_NAME_MAP } from '../utils/maps';
 import { get } from '../utils/httpService';
 
+import { AddDictionaryRecord } from './addDictionaryRecord';
+
 const mapColumns = (columns) => {
   return columns.map((columnName) => ({
     headerName: columnName,
@@ -20,7 +22,7 @@ const mapColumns = (columns) => {
   }));
 };
 
-export const Dictionary = ({ tableName }) => {
+export const Dictionary = ({ user, tableName }) => {
   const url = URL_FROM_TABLE_NAME_MAP.get(tableName.toLowerCase());
 
   const [columns, setColumns] = useState([]);
@@ -34,11 +36,20 @@ export const Dictionary = ({ tableName }) => {
     });
   }, [url]);
   return (
-    <div
-      style={{ height: '800px', width: '1600px' }}
-      className='ag-theme-alpine'
-    >
-      <AgGridReact columnDefs={columns} rowData={rows} rowSelection='single' />
-    </div>
+    <>
+      {user && user.id_of_expert === 0 && (
+        <AddDictionaryRecord columns={columns} />
+      )}
+      <div
+        style={{ height: '500px', width: '100%' }}
+        className='ag-theme-alpine'
+      >
+        <AgGridReact
+          columnDefs={columns}
+          rowData={rows}
+          rowSelection='single'
+        />
+      </div>
+    </>
   );
 };

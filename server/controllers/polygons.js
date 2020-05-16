@@ -1,8 +1,8 @@
 const pool = require('../../db-config/mysql-config');
 
 const {
-  getEmissionsOnMap,
   insertEmissionOnMap,
+  getEmissionsOnMap,
   SOURCE_POLYGON,
 } = require('./emissions_on_map');
 

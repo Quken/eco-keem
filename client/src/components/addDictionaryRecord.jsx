@@ -1,7 +1,9 @@
 import React from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 
-export const AddDictionaryRecord = ({ columns }) => {
+import { post } from '../utils/httpService';
+
+export const AddDictionaryRecord = ({ columns, url, setShouldFetchData }) => {
   const [formValues, setFormValues] = React.useState({});
 
   React.useEffect(() => {
@@ -20,7 +22,12 @@ export const AddDictionaryRecord = ({ columns }) => {
       Boolean(value)
     );
     if (hasNoEmptyFields) {
-      // send to backend object - formValues
+      post(url, formValues)
+        .then(() => setShouldFetchData(true))
+        .catch((error) => {
+          console.log(error);
+          alert(error.toString());
+        });
     } else {
       window.alert('Будь ласка, заповніть усі поля');
     }

@@ -15,10 +15,6 @@ const mapColumns = (columns) => {
     field: columnName,
     sortable: true,
     filter: true,
-    // editable: true,
-    // getQuickFilterText: function (params) {
-    //   return params.value.name;
-    // },
   }));
 };
 
@@ -28,17 +24,27 @@ export const Dictionary = ({ user, tableName }) => {
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
 
+  const [shouldFetchData, setShouldFetchData] = useState(true);
+
   useEffect(() => {
-    get(url).then(({ data }) => {
-      const mappedColumns = mapColumns(Object.keys(data[0]));
-      setColumns(mappedColumns);
-      setRows(Object.values(data));
-    });
-  }, [url]);
+    if (shouldFetchData) {
+      get(url).then(({ data }) => {
+        const mappedColumns = mapColumns(Object.keys(data[0]));
+        setColumns(mappedColumns);
+        setRows(Object.values(data));
+      });
+
+      setShouldFetchData(false);
+    }
+  }, [url, shouldFetchData]);
   return (
     <>
       {user && user.id_of_expert === 0 && (
-        <AddDictionaryRecord columns={columns} />
+        <AddDictionaryRecord
+          columns={columns}
+          url={url}
+          setShouldFetchData={setShouldFetchData}
+        />
       )}
       <div
         style={{ height: '500px', width: '100%' }}

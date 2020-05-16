@@ -9,7 +9,7 @@ export const Login = (props) => {
 
   return (
     <React.Fragment>
-      <Button variant='primary' onClick={() => setModalShow(true)}>
+      <Button variant="primary" onClick={() => setModalShow(true)}>
         Увійти
       </Button>
       <VerticallyCenteredModal

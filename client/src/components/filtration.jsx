@@ -21,15 +21,20 @@ export const Filtration = ({ user, setFilteredItems }) => {
     const { expertCheckbox: expertCheckboxes, myCheckbox } = filtrationForm;
     const selectedExperts = Array.from(expertCheckboxes)
       .filter(({ checked }) => checked)
-      .map(({ value }) => existingExperts.find(
-        ({ id_of_expert }) => +id_of_expert === +value
-      ));
+      .map(({ value }) =>
+        existingExperts.find(({ id_of_expert }) => +id_of_expert === +value)
+      );
 
     if (myCheckbox && myCheckbox.checked) {
-      setFilteredItems({ isMyObjectsSelectionChecked: true, items: [...selectedExperts, user] });
-    }
-    else {
-      setFilteredItems({ isMyObjectsSelectionChecked: false, items: selectedExperts });
+      setFilteredItems({
+        isMyObjectsSelectionChecked: true,
+        items: [...selectedExperts, user],
+      });
+    } else {
+      setFilteredItems({
+        isMyObjectsSelectionChecked: false,
+        items: selectedExperts,
+      });
     }
   };
 

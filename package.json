@@ -10,7 +10,10 @@
     "client:install": "cd ./client && npm install",
     "client:build": "cd ./client && npm run build",
     "dev": "cross-env NODE_ENV=development concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "npm install && cd ./client && npm install && npm run build"
+    "heroku-postbuild": "npm install && cd ./client && npm install && npm run build",
+    "format:backend": "prettier --write \"./**/*.{js,jxs,html,css}\"",
+    "format:client": "cd ./client && prettier --write \"./src/**/*.{js,jsx,html,css}\"",
+    "format:app": "npm run format:backend && npm run format:client"
   },
   "repository": {
     "type": "git",
@@ -32,6 +35,7 @@
   "devDependencies": {
     "body-parser": "^1.19.0",
     "concurrently": "^5.2.0",
-    "nodemon": "^1.19.3"
+    "nodemon": "^1.19.3",
+    "prettier": "2.0.5"
   }
 }

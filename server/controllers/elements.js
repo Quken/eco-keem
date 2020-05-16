@@ -16,7 +16,7 @@ const getElements = (req, res) => {
   return pool.query(query, values, (error, rows) => {
     if (error) {
       return res.status(500).send({
-        message: error
+        message: error,
       });
     }
 
@@ -25,5 +25,5 @@ const getElements = (req, res) => {
 };
 
 module.exports = {
-  getElements
+  getElements,
 };

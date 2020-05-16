@@ -19,7 +19,7 @@
   "lint-staged": {
     "./**/*.{js,jxs,html,css,json}": [
       "prettier --write",
-      "git add",
+      "git add"
     ],
     "./client/src/**/*.{js,jsx,html,css,json}": [
       "prettier --write",

@@ -51,12 +51,12 @@ export const MenuView = ({ user, setUser }) => {
   };
 
   return (
-    <Nav className="justify-content-between container mt-2 mb-2">
-      <Nav.Item className="d-flex align-items-center">
-        <Nav.Link variant="link" onClick={() => navigateToHome()}>
+    <Nav className='justify-content-between container mt-2 mb-2'>
+      <Nav.Item className='d-flex align-items-center'>
+        <Nav.Link variant='link' onClick={() => navigateToHome()}>
           Домашня сторінка
         </Nav.Link>
-        <NavDropdown title="Карти зображень">
+        <NavDropdown title='Карти зображень'>
           {environmentsInfo.environments.map(({ id, name }) => (
             <NavDropdown.Item
               onClick={() => selectEnvironment(id)}
@@ -70,11 +70,11 @@ export const MenuView = ({ user, setUser }) => {
       </Nav.Item>
       <Nav.Item>
         {user ? (
-          <div className="d-flex align-items-center">
-            <h4 className="mr-2 mb-0">
+          <div className='d-flex align-items-center'>
+            <h4 className='mr-2 mb-0'>
               Вітаємо, {user.user_name} ({user.expert_name})
             </h4>
-            <Button variant="outline-secondary" size="md" onClick={logOut}>
+            <Button variant='outline-secondary' size='md' onClick={logOut}>
               Вийти
             </Button>
           </div>

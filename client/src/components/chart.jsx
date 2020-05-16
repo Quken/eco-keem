@@ -20,8 +20,8 @@ export const Chart = ({ title, data }) => {
           label
           labelLine={false}
           outerRadius={80}
-          fill="#8884d8"
-          dataKey="value"
+          fill='#8884d8'
+          dataKey='value'
           isAnimationActive={false}
         >
           {data.map((entry, index) => (

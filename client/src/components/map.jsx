@@ -222,9 +222,9 @@ export const MapView = ({ user }) => {
         />
       </LeafletMap>
       {user && (
-        <Navbar expand="lg" className="map-options">
+        <Navbar expand='lg' className='map-options'>
           <Button
-            size="sm"
+            size='sm'
             variant={
               isAddPointModeEnabled ? 'outline-danger' : 'outline-primary'
             }
@@ -233,8 +233,8 @@ export const MapView = ({ user }) => {
             {buttonText('точку', isAddPointModeEnabled)}
           </Button>
           <Button
-            className="ml-3"
-            size="sm"
+            className='ml-3'
+            size='sm'
             variant={
               isAddPolygonModeEnabled ? 'outline-danger' : 'outline-primary'
             }
@@ -244,9 +244,9 @@ export const MapView = ({ user }) => {
           </Button>
           {isAddPolygonModeEnabled && (
             <Button
-              className="ml-3"
-              size="sm"
-              variant="outline-success"
+              className='ml-3'
+              size='sm'
+              variant='outline-success'
               onClick={finishPolygon}
             >
               Finish polygon

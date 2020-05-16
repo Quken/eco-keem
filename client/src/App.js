@@ -38,14 +38,14 @@ export const App = () => {
 
   return (
     <Router>
-      <div className="App">
+      <div className='App'>
         <EnvironmentsInfoContext.Provider
           value={{ environmentsInfo, setEnvironmentsInfo }}
         >
           <MenuView user={user} setUser={setUser} />
           <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/earth" component={() => <MapView user={user} />} />
+            <Route exact path='/' component={Home} />
+            <Route path='/earth' component={() => <MapView user={user} />} />
           </Switch>
         </EnvironmentsInfoContext.Provider>
       </div>

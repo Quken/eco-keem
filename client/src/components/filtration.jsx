@@ -41,7 +41,7 @@ export const Filtration = ({ user, setFilteredItems }) => {
   return (
     <Form
       onSubmit={submitHandler}
-      className="filtration-form d-flex justify-content-center flex-column"
+      className='filtration-form d-flex justify-content-center flex-column'
       ref={(form) => (filtrationForm = form)}
     >
       <Form.Group>
@@ -52,24 +52,24 @@ export const Filtration = ({ user, setFilteredItems }) => {
           existingExperts.map((expert) => (
             <Form.Check
               label={expert.expert_name}
-              type="checkbox"
+              type='checkbox'
               value={expert.id_of_expert}
               key={expert.id_of_expert}
-              name="expertCheckbox"
+              name='expertCheckbox'
             />
           ))}
         {user && (
           <Form.Check
             label="Мої об'єкти"
-            type="checkbox"
+            type='checkbox'
             value={user.id_of_user}
             key={user.id_of_user}
-            name="myCheckbox"
+            name='myCheckbox'
           />
         )}
       </Form.Group>
 
-      <Button variant="primary" type="submit" className="text-center">
+      <Button variant='primary' type='submit' className='text-center'>
         Застосувати
       </Button>
     </Form>

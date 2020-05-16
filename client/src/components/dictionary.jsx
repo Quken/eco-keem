@@ -38,11 +38,7 @@ export const Dictionary = ({ tableName }) => {
       style={{ height: '800px', width: '1600px' }}
       className='ag-theme-alpine'
     >
-      <AgGridReact
-        columnDefs={columns}
-        rowData={rows}
-        rowSelection='single'
-      ></AgGridReact>
+      <AgGridReact columnDefs={columns} rowData={rows} rowSelection='single' />
     </div>
   );
 };

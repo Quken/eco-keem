@@ -144,7 +144,7 @@ export const SubmitForm = ({ onSave, preloadedEmission }) => {
 
   return (
     <>
-      <div className="d-flex justify-content-center">
+      <div className='d-flex justify-content-center'>
         <Button onClick={onClick}>{buttonText}</Button>
       </div>
       {isActive && (
@@ -152,7 +152,7 @@ export const SubmitForm = ({ onSave, preloadedEmission }) => {
           <Form.Group>
             <Form.Label>Оберіть дату</Form.Label>
             <Form.Control
-              type="date"
+              type='date'
               value={date}
               onChange={(e) => handleDate(e.target.value)}
             />
@@ -161,14 +161,14 @@ export const SubmitForm = ({ onSave, preloadedEmission }) => {
           <Form.Group>
             <Form.Label>Введіть середнє значення</Form.Label>
             <Form.Control
-              type="number"
-              min="0"
+              type='number'
+              min='0'
               value={valueAvg}
               onChange={(e) => setAvgValue(+e.target.value)}
             />
           </Form.Group>
           {gdkAvg > 0 && gdkAvg < valueAvg && (
-            <Alert variant="danger">
+            <Alert variant='danger'>
               Середнє значення перевищує ГДК ({gdkAvg})
             </Alert>
           )}
@@ -176,24 +176,24 @@ export const SubmitForm = ({ onSave, preloadedEmission }) => {
           <Form.Group>
             <Form.Label>ВВедіть максимальне значення</Form.Label>
             <Form.Control
-              type="number"
-              min="0"
+              type='number'
+              min='0'
               value={valueMax}
               onChange={(e) => setMaxValue(+e.target.value)}
             />
           </Form.Group>
           {gdkMax > 0 && gdkMax < valueMax && (
-            <Alert variant="danger">
+            <Alert variant='danger'>
               Максимальне значення перевищує ГДК({gdkMax})
             </Alert>
           )}
 
           <Form.Group>
             <Dropdown>
-              <Dropdown.Toggle size="sm" variant="success">
+              <Dropdown.Toggle size='sm' variant='success'>
                 {selectedElement.short_name}
               </Dropdown.Toggle>
-              <Dropdown.Menu className="form-dropdown">
+              <Dropdown.Menu className='form-dropdown'>
                 {elements.length &&
                   elements.map((element) => (
                     <Dropdown.Item
@@ -210,12 +210,12 @@ export const SubmitForm = ({ onSave, preloadedEmission }) => {
           {measure && (
             <Form.Group>
               <Form.Label>Розмірність</Form.Label>
-              <Form.Control type="input" disabled value={measure} />
+              <Form.Control type='input' disabled value={measure} />
             </Form.Group>
           )}
         </>
       )}
-      <Button variant="outline-primary" onClick={handleSubmit}>
+      <Button variant='outline-primary' onClick={handleSubmit}>
         Зберегти
       </Button>
     </>

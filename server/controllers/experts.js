@@ -13,7 +13,7 @@ const getExperts = (req, res) => {
   return pool.query(query, values, (error, rows) => {
     if (error) {
       return res.status(500).send({
-        message: error
+        message: error,
       });
     }
 
@@ -22,5 +22,5 @@ const getExperts = (req, res) => {
 };
 
 module.exports = {
-  getExperts
+  getExperts,
 };

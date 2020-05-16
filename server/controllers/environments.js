@@ -15,7 +15,7 @@ const getEnvironments = (req, res) => {
   return pool.query(query, values, (error, rows) => {
     if (error) {
       return res.status(500).send({
-        message: error
+        message: error,
       });
     }
 
@@ -24,5 +24,5 @@ const getEnvironments = (req, res) => {
 };
 
 module.exports = {
-  getEnvironments
+  getEnvironments,
 };

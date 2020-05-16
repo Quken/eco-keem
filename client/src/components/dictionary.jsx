@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import { InputGroup, FormControl } from 'react-bootstrap';
+
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
@@ -26,6 +28,8 @@ export const Dictionary = ({ user, tableName }) => {
 
   const [shouldFetchData, setShouldFetchData] = useState(true);
 
+  const [gridOptions, setGridOptions] = useState({});
+
   useEffect(() => {
     if (shouldFetchData) {
       get(url).then(({ data }) => {
@@ -37,8 +41,31 @@ export const Dictionary = ({ user, tableName }) => {
       setShouldFetchData(false);
     }
   }, [url, shouldFetchData]);
+
+  const onFilterTextBoxChanged = (inputText) => {
+    gridOptions.api.setQuickFilter(inputText);
+  };
+
+  const onGridReady = (gridOptions) => {
+    setGridOptions(gridOptions);
+  };
+
   return (
     <>
+      <div className='row'>
+        <InputGroup size='md' className='col-6 mr-auto ml-auto mb-3 mt-3'>
+          <InputGroup.Prepend>
+            <InputGroup.Text id='inputGroup-sizing-md'>Пошук:</InputGroup.Text>
+          </InputGroup.Prepend>
+          <FormControl
+            aria-label='Medium'
+            aria-describedby='inputGroup-sizing-md'
+            id='filter-text-box'
+            placeholder='Filter...'
+            onInput={({ target }) => onFilterTextBoxChanged(target.value)}
+          />
+        </InputGroup>
+      </div>
       {user && user.id_of_expert === 0 && (
         <AddDictionaryRecord
           columns={columns}
@@ -54,6 +81,7 @@ export const Dictionary = ({ user, tableName }) => {
           columnDefs={columns}
           rowData={rows}
           rowSelection='single'
+          onGridReady={onGridReady}
         />
       </div>
     </>

@@ -15,7 +15,6 @@ const initialState = {
 
 export const Polygons = ({
   polygons,
-  id,
   setPolygonId,
   setIsEditPolygonMode,
   setShowPolygonModal,
@@ -47,7 +46,6 @@ export const Polygons = ({
             key={poligonId}
             positions={polygonPoints}
             color={`rgba(${brushColorR}, ${brushColorG}, ${brushColorB}, 1)`}
-            onClick={() => setPolygonId(poligonId)}
           >
             <Popup maxWidth='auto'>
               <FontAwesomeIcon
@@ -125,7 +123,7 @@ export const Polygons = ({
                 </>
               )}
               <EmissionsChartModal
-                id={id}
+                id={poligonId}
                 emissions={emissions}
                 show={showEmissionsChartModal}
                 onHide={() => setShowEmissionsChartModal(false)}

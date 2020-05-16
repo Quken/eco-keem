@@ -16,6 +16,11 @@
     "format:app": "npm run format:backend && npm run format:client",
     "precommit": "lint-staged"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "lint-staged": {
     "./**/*.{js,jxs,html,css,json}": [
       "prettier --write",

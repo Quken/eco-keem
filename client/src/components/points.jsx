@@ -12,6 +12,7 @@ import './popup.css';
 export const Points = ({
   points,
   setShowPointModal,
+  pointId,
   setPointId,
   setIsEditPointMode,
 }) => {
@@ -46,6 +47,7 @@ export const Points = ({
                 iconSize: [20, 30],
               })
             }
+            onClick={() => setPointId(id)}
           >
             <Popup maxWidth='auto'>
               <FontAwesomeIcon
@@ -129,7 +131,7 @@ export const Points = ({
               )}
               <EmissionsChartModal
                 isPoint
-                id={id}
+                id={pointId}
                 emissions={emissions}
                 show={showEmissionsChartModal}
                 onHide={() => setShowEmissionsChartModal(false)}

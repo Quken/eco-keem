@@ -210,12 +210,14 @@ export const MapView = ({ user }) => {
         <TileLayer url={OPEN_STREET_MAP_URL} />
         <Polygons
           polygons={filteredPolygons}
+          id={polygonId}
           setPolygonId={setPolygonId}
           setIsEditPolygonMode={setIsEditPolygonMode}
           setShowPolygonModal={setShowPolygonModal}
         />
         <Points
           points={filteredPoints}
+          pointId={pointId}
           setPointId={setPointId}
           setIsEditPointMode={setIsEditPointMode}
           setShowPointModal={setShowPointModal}

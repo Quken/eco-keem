@@ -2,7 +2,7 @@ const pool = require('../../db-config/mysql-config');
 
 const tableName = 'gdk';
 
-const getGdkElement = (req, res) => {
+const findGdkElement = (req, res) => {
   const { code, environment } = req.body;
 
   const columnNames = ['mpc_m_ot', 'mpc_avrg_d'];
@@ -67,7 +67,33 @@ const getAllGdkElements = (req, res) => {
   });
 };
 
+const addGdkElement = (req, res) => {
+  const addElementPromise = new Promise((resolve, reject) => {
+    const query = `
+      INSERT INTO
+        ??
+      VALUES
+        (?)
+    `;
+
+    pool.query(query, [tableName, Object.values(req.body)], (error, rows) => {
+      if (error) {
+        reject(error);
+      }
+
+      if (rows.affectedRows === 1) {
+        resolve();
+      }
+    });
+  });
+
+  return addElementPromise
+    .then(() => res.sendStatus(200))
+    .catch((error) => res.status(500).send({ message: error }));
+};
+
 module.exports = {
-  getGdkElement,
+  addGdkElement,
+  findGdkElement,
   getAllGdkElements,
 };

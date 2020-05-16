@@ -1,5 +1,7 @@
 const pool = require('../../db-config/mysql-config');
 
+const tableName = 'type_of_object';
+
 const getTypes = (req, res) => {
   const query = `
   SELECT 
@@ -31,6 +33,39 @@ const getTypes = (req, res) => {
   });
 };
 
+const addType = (req, res) => {
+  const addTypeOfObjectPromise = new Promise((resolve, reject) => {
+    const query = `
+      INSERT INTO
+        ??
+        (??)
+      VALUES
+        (?)
+    `;
+
+    const columns = ['Id', 'Name', 'Image_Name'];
+
+    pool.query(
+      query,
+      [tableName, columns, Object.values(req.body)],
+      (error, rows) => {
+        if (error) {
+          reject(error);
+        }
+
+        if (rows.affectedRows === 1) {
+          resolve();
+        }
+      }
+    );
+  });
+
+  return addTypeOfObjectPromise
+    .then(() => res.sendStatus(200))
+    .catch((error) => res.status(500).send({ message: error }));
+};
+
 module.exports = {
   getTypes,
+  addType,
 };

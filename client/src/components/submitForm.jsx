@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Dropdown, Form, Alert } from 'react-bootstrap';
 
-import { ELEMENTS_URL, GDK_URL } from '../utils/constants';
+import { ELEMENTS_URL, GDK_FIND_URL } from '../utils/constants';
 import { post, get } from '../utils/httpService';
 
 import './submitForm.css';
@@ -83,7 +83,7 @@ export const SubmitForm = ({ onSave, preloadedEmission }) => {
     setElement(element);
     setMeasure(element.measure);
 
-    post(GDK_URL, {
+    post(GDK_FIND_URL, {
       code: element.code,
       environment: environmentsInfo.selected.id,
     }).then(({ data }) => {

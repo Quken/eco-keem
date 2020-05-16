@@ -8,6 +8,7 @@ export const EXPERTS_URL = '/experts';
 export const ENVIRONMENTS_URL = '/environments';
 export const ELEMENTS_URL = '/elements';
 export const GDK_URL = '/gdk';
+export const GDK_FIND_URL = '/gdk/find';
 export const EMISSIONS_CALCULATIONS_URL = '/emissionscalculations';
 export const OWNER_TYPES_URL = '/ownertypes';
 export const TAX_VALUES_URL = '/taxvalues';

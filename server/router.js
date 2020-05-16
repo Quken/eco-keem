@@ -29,15 +29,19 @@ router.get('/point/:id', pointController.getPoint);
 router.put('/point/:id', pointController.updatePoint);
 
 router.get('/typeofobjects', typeOfObjectController.getTypes);
+router.post('/typeofobjects', typeOfObjectController.addType);
 
 router.get('/experts', expertsController.getExperts);
 
 router.get('/environments', environmentsController.getEnvironments);
+router.post('/environments', environmentsController.addEnvironment);
 
 router.get('/elements', elementsController.getElements);
+router.post('/elements', elementsController.addElement);
 
 router.get('/gdk', gdkController.getAllGdkElements);
-router.post('/gdk', gdkController.getGdkElement);
+router.post('/gdk', gdkController.addGdkElement);
+router.post('/gdk/find', gdkController.findGdkElement);
 
 router.get(
   '/emissionscalculations',
@@ -47,6 +51,7 @@ router.get(
 router.get('/ownertypes', ownerTypesController.getAll);
 
 router.get('/taxvalues', taxValuesController.getTaxValues);
+router.post('/taxvalues', taxValuesController.addTaxValue);
 
 if (process.env.NODE_ENV === 'production') {
   router.get('*', (req, res) => {

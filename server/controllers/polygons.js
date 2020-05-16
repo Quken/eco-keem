@@ -12,7 +12,7 @@ const mapPolygonPoints = (polygonPoints, idOfPolygon) => {
     .map(({ latitude, longitude }) => [longitude, latitude]);
 };
 
-const getPolygons = (req, res  ) => {
+const getPolygons = (req, res   ) => {
   const { idEnvironment } =    req.query;
 
   const queryGetPolygons = `

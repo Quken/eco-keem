@@ -11,9 +11,20 @@
     "client:build": "cd ./client && npm run build",
     "dev": "cross-env NODE_ENV=development concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "npm install && cd ./client && npm install && npm run build",
-    "format:backend": "prettier --write \"./**/*.{js,jxs,html,css}\"",
-    "format:client": "cd ./client && prettier --write \"./src/**/*.{js,jsx,html,css}\"",
-    "format:app": "npm run format:backend && npm run format:client"
+    "format:backend": "prettier --write \"./**/*.{js,jxs,html,css,json}\"",
+    "format:client": "cd ./client && prettier --write \"./src/**/*.{js,jsx,html,css,json}\"",
+    "format:app": "npm run format:backend && npm run format:client",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "./**/*.{js,jxs,html,css,json}": [
+      "prettier --write",
+      "git add",
+    ],
+    "./client/src/**/*.{js,jsx,html,css,json}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "repository": {
     "type": "git",
@@ -35,7 +46,9 @@
   "devDependencies": {
     "body-parser": "^1.19.0",
     "concurrently": "^5.2.0",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.2",
     "nodemon": "^1.19.3",
-    "prettier": "2.0.5"
+    "prettier": "^2.0.5"
   }
 }

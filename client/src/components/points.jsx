@@ -49,13 +49,13 @@ export const Points = ({
             }
             onClick={() => setPointId(id)}
           >
-            <Popup maxWidth='auto'>
+            <Popup maxWidth="auto">
               <FontAwesomeIcon
                 icon={faPencilAlt}
                 onClick={() => handleClick(id)}
-                className='edit-pencil-icon'
+                className="edit-pencil-icon"
               />
-              <div className='mt-4 mb-2'>
+              <div className="mt-4 mb-2">
                 {Name_object && (
                   <div>
                     <strong>Назва:</strong> {Name_object}
@@ -78,20 +78,20 @@ export const Points = ({
                     striped
                     bordered
                     hover
-                    size='sm'
-                    className='emissions-table'
+                    size="sm"
+                    className="emissions-table"
                   >
                     <thead>
                       <tr>
-                        <th title='Хімічний елемент'>Хімічний елемент</th>
-                        <th title='Середнє значення'>Середнє значення</th>
-                        <th title='Максимальне значення'>
+                        <th title="Хімічний елемент">Хімічний елемент</th>
+                        <th title="Середнє значення">Середнє значення</th>
+                        <th title="Максимальне значення">
                           Максимальне значення
                         </th>
-                        <th title='Рік'>Рік</th>
-                        <th title='Місяць'>Місяць</th>
-                        <th title='День'>День</th>
-                        <th title='Одиниця виміру'>Одиниця виміру</th>
+                        <th title="Рік">Рік</th>
+                        <th title="Місяць">Місяць</th>
+                        <th title="День">День</th>
+                        <th title="Одиниця виміру">Одиниця виміру</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -122,7 +122,7 @@ export const Points = ({
                     </tbody>
                   </Table>
                   <Button
-                    size='sm'
+                    size="sm"
                     onClick={() => setShowEmissionsChartModal(true)}
                   >
                     Відобразити графіки викидів

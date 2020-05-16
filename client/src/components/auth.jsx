@@ -25,29 +25,29 @@ export const Auth = (props) => {
 
   return (
     <Container>
-      <Row className='justify-content-center'>
+      <Row className="justify-content-center">
         <Col xs={6}>
           <Form>
-            <Form.Group controlId='formUsername'>
+            <Form.Group controlId="formUsername">
               <Form.Label>Логін</Form.Label>
               <Form.Control
-                type='input'
-                placeholder='Введіть логін'
+                type="input"
+                placeholder="Введіть логін"
                 value={login}
                 onChange={(e) => setLogin(e.target.value)}
               />
             </Form.Group>
 
-            <Form.Group controlId='formBasicPassword'>
+            <Form.Group controlId="formBasicPassword">
               <Form.Label>Пароль</Form.Label>
               <Form.Control
-                type='password'
-                placeholder='Введіть пароль'
+                type="password"
+                placeholder="Введіть пароль"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Form.Group>
-            <Button variant='primary' onClick={loginUser}>
+            <Button variant="primary" onClick={loginUser}>
               Увійти
             </Button>
           </Form>

@@ -49,13 +49,13 @@ export const Polygons = ({
             color={`rgba(${brushColorR}, ${brushColorG}, ${brushColorB}, 1)`}
             onClick={() => setPolygonId(poligonId)}
           >
-            <Popup maxWidth='auto'>
+            <Popup maxWidth="auto">
               <FontAwesomeIcon
                 icon={faPencilAlt}
                 onClick={() => handleClick(poligonId)}
-                className='edit-pencil-icon'
+                className="edit-pencil-icon"
               />
-              <div className='mt-4 mb-2'>
+              <div className="mt-4 mb-2">
                 {name && (
                   <div>
                     <strong>Назва:</strong> {name}
@@ -73,20 +73,20 @@ export const Polygons = ({
                     striped
                     bordered
                     hover
-                    size='sm'
-                    className='emissions-table'
+                    size="sm"
+                    className="emissions-table"
                   >
                     <thead>
                       <tr>
-                        <th title='Хімічний елемент'>Хімічний елемент</th>
-                        <th title='Середнє значення'>Середнє значення</th>
-                        <th title='Максимальне значення'>
+                        <th title="Хімічний елемент">Хімічний елемент</th>
+                        <th title="Середнє значення">Середнє значення</th>
+                        <th title="Максимальне значення">
                           Максимальне значення
                         </th>
-                        <th title='Рік'>Рік</th>
-                        <th title='Місяць'>Місяць</th>
-                        <th title='День'>День</th>
-                        <th title='Одиниця виміру'>Одиниця виміру</th>
+                        <th title="Рік">Рік</th>
+                        <th title="Місяць">Місяць</th>
+                        <th title="День">День</th>
+                        <th title="Одиниця виміру">Одиниця виміру</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -117,7 +117,7 @@ export const Polygons = ({
                     </tbody>
                   </Table>
                   <Button
-                    size='sm'
+                    size="sm"
                     onClick={() => setShowEmissionsChartModal(true)}
                   >
                     Відобразити графіки викидів

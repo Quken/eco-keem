@@ -48,35 +48,6 @@ const addEnvironment = (req, res) => {
     .catch((error) => res.status(500).send({ message: error }));
 };
 
-// const test = () => {
-//   const query = `
-//       INSERT INTO
-//         ??
-//       VALUES
-//         (?)
-//     `;
-//   const req = {
-//     body: {
-//       id: 444443,
-//       name: 'fdasfmasdof',
-//     },
-//   };
-
-//   pool.query(query, [tableName, Object.values(req.body)], (error, rows) => {
-//     if (error) {
-//       // reject(error);
-//       console.log(error);
-//     }
-
-//     console.log(rows);
-//     if (rows.affectedRows === 1) {
-//       // resolve();
-//     }
-//   });
-// };
-
-// test();
-
 module.exports = {
   getEnvironments,
   addEnvironment,

@@ -2,28 +2,37 @@ const pool = require('../../db-config/mysql-config');
 
 const tableName = 'environment';
 
-const getEnvironments = (req, res) => {
-  const query = `
-    SELECT 
-      *
-    FROM 
-      ??
-    ;`;
+const getEnvironments = async (req, res) => {
+  const getEnvironmentsPromise = new Promise((resolve, reject) => {
+    const query = `
+      SELECT 
+        *
+      FROM 
+        ??
+      ;`;
 
-  const values = [tableName];
+    const values = [tableName];
 
-  return pool.query(query, values, (error, rows) => {
-    if (error) {
-      return res.status(500).send({
-        message: error,
-      });
-    }
+    return pool.query(query, values, (error, rows) => {
+      if (error) {
+        reject(error);
+      }
 
-    return res.send(JSON.stringify(rows));
+      resolve(rows);
+    });
   });
+
+  try {
+    const rows = await getEnvironmentsPromise;
+    return res.send(JSON.stringify(rows));
+  } catch (error) {
+    return res.status(500).send({
+      message: error,
+    });
+  }
 };
 
-const addEnvironment = (req, res) => {
+const addEnvironment = async (req, res) => {
   const addEnvironmentPromise = new Promise((resolve, reject) => {
     const query = `
       INSERT INTO
@@ -43,9 +52,12 @@ const addEnvironment = (req, res) => {
     });
   });
 
-  return addEnvironmentPromise
-    .then(() => res.sendStatus(200))
-    .catch((error) => res.status(500).send({ message: error }));
+  try {
+    await addEnvironmentPromise;
+    return res.sendStatus(200);
+  } catch (error) {
+    return res.status(500).send({ message: error });
+  }
 };
 
 module.exports = {

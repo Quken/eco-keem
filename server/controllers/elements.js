@@ -2,28 +2,35 @@ const pool = require('../../db-config/mysql-config');
 
 const tableName = 'elements';
 
-const getElements = (req, res) => {
-  const query = `
-    SELECT 
-      *
-    FROM 
-      ??
-    ;`;
+const getElements = async (req, res) => {
+  const getElementsPromise = new Promise((resolve, reject) => {
+    const query = `
+      SELECT 
+        *
+      FROM 
+        ??
+      ;`;
 
-  const values = [tableName];
+    const values = [tableName];
 
-  return pool.query(query, values, (error, rows) => {
-    if (error) {
-      return res.status(500).send({
-        message: error,
-      });
-    }
+    return pool.query(query, values, (error, rows) => {
+      if (error) {
+        reject(error);
+      }
 
-    return res.send(JSON.stringify(rows));
+      resolve(rows);
+    });
   });
+
+  try {
+    const rows = await getElementsPromise;
+    return res.send(JSON.stringify(rows));
+  } catch (error) {
+    return res.status(500).send({ message: error });
+  }
 };
 
-const addElement = (req, res) => {
+const addElement = async (req, res) => {
   const addElementPromise = new Promise((resolve, reject) => {
     const query = `
       INSERT INTO
@@ -43,9 +50,12 @@ const addElement = (req, res) => {
     });
   });
 
-  return addElementPromise
-    .then(() => res.sendStatus(200))
-    .catch((error) => res.status(500).send({ message: error }));
+  try {
+    await addElementPromise;
+    return res.sendStatus(200);
+  } catch (error) {
+    return res.status(500).send({ message: error });
+  }
 };
 
 module.exports = {

@@ -2,30 +2,37 @@ const pool = require('../../db-config/mysql-config');
 
 const tableName = 'tax_values';
 
-const getTaxValues = (req, res) => {
-  const query = `
-  SELECT 
-    *
-  FROM 
-    ??;
-  `;
+const getTaxValues = async (req, res) => {
+  const getTaxValuesPromise = new Promise((resolve, reject) => {
+    const query = `
+    SELECT 
+      *
+    FROM 
+      ??;
+    `;
 
-  const values = [tableName];
+    const values = [tableName];
 
-  return pool.query(query, values, (error, rows) => {
-    if (error) {
-      return res.status(500).send({
-        message: error,
-      });
-    }
+    return pool.query(query, values, (error, rows) => {
+      if (error) {
+        reject(error);
+      }
 
-    if (rows.length) {
-      return res.send(JSON.stringify(rows));
-    }
+      resolve(rows);
+    });
   });
+
+  try {
+    const rows = await getTaxValuesPromise;
+    return res.send(JSON.stringify(rows));
+  } catch (error) {
+    return res.status(500).send({
+      message: error,
+    });
+  }
 };
 
-const addTaxValue = (req, res) => {
+const addTaxValue = async (req, res) => {
   const addEnvironmentPromise = new Promise((resolve, reject) => {
     const query = `
       INSERT INTO
@@ -45,9 +52,12 @@ const addTaxValue = (req, res) => {
     });
   });
 
-  return addEnvironmentPromise
-    .then(() => res.sendStatus(200))
-    .catch((error) => res.status(500).send({ message: error }));
+  try {
+    await addEnvironmentPromise;
+    return res.sendStatus(200);
+  } catch (error) {
+    res.status(500).send({ message: error });
+  }
 };
 
 module.exports = {

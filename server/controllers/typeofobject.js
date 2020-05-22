@@ -2,38 +2,43 @@ const pool = require('../../db-config/mysql-config');
 
 const tableName = 'type_of_object';
 
-const getTypes = (req, res) => {
-  const query = `
-  SELECT 
-    ??
-  FROM 
-    ??;
-  `;
+const getTypes = async (req, res) => {
+  const getTypesPromise = new Promise((resolve, reject) => {
+    const query = `
+      SELECT 
+        ??
+      FROM 
+        ??;
+      `;
 
-  const values = [['Id', 'Name', 'Image_Name'], 'type_of_object'];
+    const values = [['Id', 'Name', 'Image_Name'], 'type_of_object'];
 
-  return pool.query(query, values, (error, rows) => {
-    if (error) {
-      return res.status(500).send({
-        message: error,
-      });
-    }
+    return pool.query(query, values, (error, rows) => {
+      if (error) {
+        reject(error);
+      }
 
-    if (rows.length) {
-      const mappedTypes = rows.map(({ Id, Name, Image_Name }) => {
-        return {
-          id: Id,
-          name: Name,
-          imageName: Image_Name,
-        };
-      });
-
-      return res.send(JSON.stringify(mappedTypes));
-    }
+      resolve(rows);
+    });
   });
+
+  try {
+    const rows = await getTypesPromise;
+    const mappedTypes = rows.map(({ Id, Name, Image_Name }) => {
+      return {
+        id: Id,
+        name: Name,
+        imageName: Image_Name,
+      };
+    });
+
+    return res.send(JSON.stringify(mappedTypes));
+  } catch (error) {
+    return res.status(500).send({ message: error });
+  }
 };
 
-const addType = (req, res) => {
+const addType = async (req, res) => {
   const addTypeOfObjectPromise = new Promise((resolve, reject) => {
     const query = `
       INSERT INTO
@@ -60,9 +65,12 @@ const addType = (req, res) => {
     );
   });
 
-  return addTypeOfObjectPromise
-    .then(() => res.sendStatus(200))
-    .catch((error) => res.status(500).send({ message: error }));
+  try {
+    await addTypeOfObjectPromise;
+    return res.sendStatus(200);
+  } catch (error) {
+    return res.status(500).send({ message: error });
+  }
 };
 
 module.exports = {

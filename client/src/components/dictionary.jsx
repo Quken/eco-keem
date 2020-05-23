@@ -50,6 +50,12 @@ export const Dictionary = ({ user, tableName }) => {
     setGridOptions(gridOptions);
   };
 
+  const onRowSelected = () => {
+    const selectedNodes = gridOptions.api.getSelectedNodes();
+    const selectedData = selectedNodes.map(({ data }) => data);
+    console.log(selectedData);
+  };
+
   return (
     <>
       <div className='row'>
@@ -82,6 +88,7 @@ export const Dictionary = ({ user, tableName }) => {
           rowData={rows}
           rowSelection='single'
           onGridReady={onGridReady}
+          onRowSelected={onRowSelected}
         />
       </div>
     </>

@@ -8,3 +8,11 @@
   border-top-right-radius: 5px;
   text-align: left;
 }
+
+@media screen and (max-width: 1008px) {
+  .filtration-form {
+    top: calc(100vh / 2);
+    max-height: 150px;
+    overflow-y: auto;
+  }
+}

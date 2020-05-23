@@ -39,39 +39,41 @@ export const Filtration = ({ user, setFilteredItems }) => {
   };
 
   return (
-    <Form
-      onSubmit={submitHandler}
-      className="filtration-form d-flex justify-content-center flex-column"
-      ref={(form) => (filtrationForm = form)}
-    >
-      <Form.Group>
-        <Form.Label>
-          <b>Оберіть експерта</b>
-        </Form.Label>
-        {existingExperts.length &&
-          existingExperts.map((expert) => (
+    <div className="filtration-form">
+      <Form
+        onSubmit={submitHandler}
+        className="d-flex justify-content-center flex-column"
+        ref={(form) => (filtrationForm = form)}
+      >
+        <Form.Group>
+          <Form.Label>
+            <b>Оберіть експерта</b>
+          </Form.Label>
+          {existingExperts.length &&
+            existingExperts.map((expert) => (
+              <Form.Check
+                label={expert.expert_name}
+                type="checkbox"
+                value={expert.id_of_expert}
+                key={expert.id_of_expert}
+                name="expertCheckbox"
+              />
+            ))}
+          {user && (
             <Form.Check
-              label={expert.expert_name}
+              label="Мої об'єкти"
               type="checkbox"
-              value={expert.id_of_expert}
-              key={expert.id_of_expert}
-              name="expertCheckbox"
+              value={user.id_of_user}
+              key={user.id_of_user}
+              name="myCheckbox"
             />
-          ))}
-        {user && (
-          <Form.Check
-            label="Мої об'єкти"
-            type="checkbox"
-            value={user.id_of_user}
-            key={user.id_of_user}
-            name="myCheckbox"
-          />
-        )}
-      </Form.Group>
+          )}
+        </Form.Group>
 
-      <Button variant="primary" type="submit" className="text-center">
-        Застосувати
-      </Button>
-    </Form>
+        <Button variant="primary" type="submit" className="text-center">
+          Застосувати
+        </Button>
+      </Form>
+    </div>
   );
 };

@@ -172,3 +172,11 @@ export const extractRGBA = (rgbaString) => {
     alert(error.message);
   }
 };
+
+export const getIdColumnNameForDictionaryObject = (item) => {
+  const possibleNamesForIdColumn = ['code', 'id', 'Id', 'id_of_element'];
+
+  return possibleNamesForIdColumn.find((possibleName) =>
+    Object.keys(item).some((key) => key === possibleName)
+  );
+};

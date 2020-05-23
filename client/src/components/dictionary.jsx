@@ -10,6 +10,9 @@ import { URL_FROM_TABLE_NAME_MAP } from '../utils/maps';
 import { get } from '../utils/httpService';
 
 import { AddDictionaryRecord } from './addDictionaryRecord';
+import { DictionaryModes } from './dictionaryModes';
+import { DICTIONARY_MODES } from '../utils/constants';
+import { RemoveDictionaryRecord } from './removeDictionaryRecord';
 
 const mapColumns = (columns) => {
   return columns.map((columnName) => ({
@@ -29,6 +32,9 @@ export const Dictionary = ({ user, tableName }) => {
   const [shouldFetchData, setShouldFetchData] = useState(true);
 
   const [gridOptions, setGridOptions] = useState({});
+
+  const [selectedMode, setSelectedMode] = useState(null);
+  const [selectedRow, setSelectedRow] = useState(null);
 
   useEffect(() => {
     if (shouldFetchData) {
@@ -53,32 +59,60 @@ export const Dictionary = ({ user, tableName }) => {
   const onRowSelected = () => {
     const selectedNodes = gridOptions.api.getSelectedNodes();
     const selectedData = selectedNodes.map(({ data }) => data);
-    console.log(selectedData);
+
+    setSelectedRow(selectedData[0]);
   };
 
   return (
     <>
-      <div className='row'>
-        <InputGroup size='md' className='col-6 mr-auto ml-auto mb-3 mt-3'>
-          <InputGroup.Prepend>
-            <InputGroup.Text id='inputGroup-sizing-md'>Пошук:</InputGroup.Text>
-          </InputGroup.Prepend>
-          <FormControl
-            aria-label='Medium'
-            aria-describedby='inputGroup-sizing-md'
-            id='filter-text-box'
-            placeholder='Filter...'
-            onInput={({ target }) => onFilterTextBoxChanged(target.value)}
-          />
-        </InputGroup>
-      </div>
-      {user && user.id_of_expert === 0 && (
-        <AddDictionaryRecord
-          columns={columns}
-          url={url}
-          setShouldFetchData={setShouldFetchData}
-        />
+      <DictionaryModes setSelectedMode={setSelectedMode} user={user} />
+      {selectedMode === DICTIONARY_MODES.search && (
+        <div className='row'>
+          <InputGroup size='md' className='col-6 mr-auto ml-auto mb-3 mt-3'>
+            <InputGroup.Prepend>
+              <InputGroup.Text id='inputGroup-sizing-md'>
+                Пошук:
+              </InputGroup.Text>
+            </InputGroup.Prepend>
+            <FormControl
+              aria-label='Medium'
+              aria-describedby='inputGroup-sizing-md'
+              id='filter-text-box'
+              placeholder='Filter...'
+              onInput={({ target }) => onFilterTextBoxChanged(target.value)}
+            />
+          </InputGroup>
+        </div>
       )}
+      {user &&
+        user.id_of_expert === 0 &&
+        selectedMode === DICTIONARY_MODES.add && (
+          <AddDictionaryRecord
+            columns={columns}
+            url={url}
+            setShouldFetchData={setShouldFetchData}
+          />
+        )}
+      {user &&
+        user.id_of_expert === 0 &&
+        selectedMode === DICTIONARY_MODES.edit && (
+          // <AddDictionaryRecord
+          //   columns={columns}
+          //   url={url}
+          //   setShouldFetchData={setShouldFetchData}
+          // />
+          <div>edit</div>
+        )}
+      {user &&
+        user.id_of_expert === 0 &&
+        selectedMode === DICTIONARY_MODES.delete && (
+          <RemoveDictionaryRecord
+            selectedRow={selectedRow}
+            url={url}
+            setShouldFetchData={setShouldFetchData}
+            setSelectedRow={setSelectedRow}
+          />
+        )}
       <div
         style={{ height: '500px', width: '100%' }}
         className='ag-theme-alpine'

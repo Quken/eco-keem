@@ -22,6 +22,8 @@ export const AddDictionaryRecord = ({ columns, url, setShouldFetchData }) => {
       Boolean(value)
     );
     if (hasNoEmptyFields) {
+      //TODO
+      // clear fields after request
       post(url, formValues)
         .then(() => setShouldFetchData(true))
         .catch((error) => {

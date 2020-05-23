@@ -12,4 +12,8 @@ async function put(url, body) {
   return axios.put(url, body);
 }
 
-export { post, get, put };
+async function deleteRequest(url, body) {
+  return axios.delete(url);
+}
+
+export { post, get, put, deleteRequest };

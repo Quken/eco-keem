@@ -77,7 +77,7 @@ const getAllGdkElements = async (req, res) => {
 };
 
 const addGdkElement = async (req, res) => {
-  const addElementPromise = new Promise((resolve, reject) => {
+  const addGdkElementPromise = new Promise((resolve, reject) => {
     const query = `
       INSERT INTO
         ??
@@ -97,7 +97,7 @@ const addGdkElement = async (req, res) => {
   });
 
   try {
-    await addElementPromise;
+    await addGdkElementPromise;
     return res.sendStatus(200);
   } catch (error) {
     return res.status(500).send({ message: error });

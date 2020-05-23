@@ -33,7 +33,7 @@ const getTaxValues = async (req, res) => {
 };
 
 const addTaxValue = async (req, res) => {
-  const addEnvironmentPromise = new Promise((resolve, reject) => {
+  const addTaxValuePromise = new Promise((resolve, reject) => {
     const query = `
       INSERT INTO
         ??
@@ -53,7 +53,7 @@ const addTaxValue = async (req, res) => {
   });
 
   try {
-    await addEnvironmentPromise;
+    await addTaxValuePromise;
     return res.sendStatus(200);
   } catch (error) {
     res.status(500).send({ message: error });

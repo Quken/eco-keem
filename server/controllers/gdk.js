@@ -144,9 +144,43 @@ const editGdkElement = async (req, res) => {
   }
 };
 
+// !!comparison only by `code` (without `environment`)!!
+const removeGdkElement = async (req, res) => {
+  const removeGdkElementPromise = new Promise((resolve, reject) => {
+    const id = req.params.id;
+
+    const query = `
+      DELETE FROM
+      ??
+      WHERE
+      ?? = ?
+    `;
+
+    const values = [tableName, 'code', id];
+
+    pool.query(query, values, (error, rows) => {
+      if (error) {
+        reject(error);
+      }
+
+      if (rows.affectedRows === 1) {
+        resolve();
+      }
+    });
+  });
+
+  try {
+    await removeGdkElementPromise;
+    return res.sendStatus(200);
+  } catch (error) {
+    return res.status(500).send({ message: error });
+  }
+};
+
 module.exports = {
   addGdkElement,
   findGdkElement,
   getAllGdkElements,
   editGdkElement,
+  removeGdkElement,
 };

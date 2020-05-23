@@ -100,8 +100,42 @@ const editTaxValue = async (req, res) => {
   }
 };
 
+// !!comparison only by `code` (without `environment`)!!
+const removeTaxValue = async (req, res) => {
+  const removeTaxValuePromise = new Promise((resolve, reject) => {
+    const id = req.params.id;
+
+    const query = `
+      DELETE FROM
+      ??
+      WHERE
+      ?? = ?
+    `;
+
+    const values = [tableName, 'id_of_element', id];
+
+    pool.query(query, values, (error, rows) => {
+      if (error) {
+        reject(error);
+      }
+
+      if (rows.affectedRows === 1) {
+        resolve();
+      }
+    });
+  });
+
+  try {
+    await removeTaxValuePromise;
+    return res.sendStatus(200);
+  } catch (error) {
+    return res.status(500).send({ message: error });
+  }
+};
+
 module.exports = {
   getTaxValues,
   addTaxValue,
   editTaxValue,
+  removeTaxValue,
 };

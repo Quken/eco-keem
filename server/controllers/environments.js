@@ -99,8 +99,41 @@ const editEnvironment = async (req, res) => {
   }
 };
 
+const removeEnvironment = async (req, res) => {
+  const removeEnvironmentPromise = new Promise((resolve, reject) => {
+    const id = req.params.id;
+
+    const query = `
+      DELETE FROM
+      ??
+      WHERE
+      ?? = ?
+    `;
+
+    const values = [tableName, 'id', id];
+
+    pool.query(query, values, (error, rows) => {
+      if (error) {
+        reject(error);
+      }
+
+      if (rows.affectedRows === 1) {
+        resolve();
+      }
+    });
+  });
+
+  try {
+    await removeEnvironmentPromise;
+    return res.sendStatus(200);
+  } catch (error) {
+    return res.status(500).send({ message: error });
+  }
+};
+
 module.exports = {
   getEnvironments,
   addEnvironment,
   editEnvironment,
+  removeEnvironment,
 };

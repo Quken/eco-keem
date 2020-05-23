@@ -112,8 +112,41 @@ const editTypeOfObject = async (req, res) => {
   }
 };
 
+const removeTypeOfObject = async (req, res) => {
+  const removeTypeOfObjectPromise = new Promise((resolve, reject) => {
+    const id = req.params.id;
+
+    const query = `
+      DELETE FROM
+      ??
+      WHERE
+      ?? = ?
+    `;
+
+    const values = [tableName, 'Id', id];
+
+    pool.query(query, values, (error, rows) => {
+      if (error) {
+        reject(error);
+      }
+
+      if (rows.affectedRows === 1) {
+        resolve();
+      }
+    });
+  });
+
+  try {
+    await removeTypeOfObjectPromise;
+    return res.sendStatus(200);
+  } catch (error) {
+    return res.status(500).send({ message: error });
+  }
+};
+
 module.exports = {
   getTypes,
   addType,
   editTypeOfObject,
+  removeTypeOfObject,
 };

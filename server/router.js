@@ -61,7 +61,7 @@ router.get('/ownertypes', ownerTypesController.getAll);
 router.get('/taxvalues', taxValuesController.getTaxValues);
 router.post('/taxvalues', taxValuesController.addTaxValue);
 router.put('/taxvalues/:id', taxValuesController.editTaxValue);
-router.delete('/taxvalues/:id', taxValuesController.editTaxValue);
+router.delete('/taxvalues/:id', taxValuesController.removeTaxValue);
 
 if (process.env.NODE_ENV === 'production') {
   router.get('*', (req, res) => {

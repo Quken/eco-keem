@@ -58,7 +58,47 @@ const addElement = async (req, res) => {
   }
 };
 
+const editElement = async (req, res) => {
+  // TODO
+  // id in params should also change after editing on frontend
+  // (we should use new id for put when it has changed)
+
+  const editElementPromise = new Promise((resolve, reject) => {
+    const id = req.params.id;
+    const { body: updatedValues } = req;
+
+    const query = `
+      UPDATE
+      ??
+      SET
+      ?
+      WHERE
+      ?? = ?
+    `;
+
+    const values = [tableName, updatedValues, 'code', id];
+
+    pool.query(query, values, (error, rows) => {
+      if (error) {
+        reject(error);
+      }
+
+      if (rows.affectedRows === 1) {
+        resolve();
+      }
+    });
+  });
+
+  try {
+    await editElementPromise;
+    return res.sendStatus(200);
+  } catch (error) {
+    return res.status(500).send({ message: error });
+  }
+};
+
 module.exports = {
   getElements,
   addElement,
+  editElement,
 };

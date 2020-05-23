@@ -60,7 +60,48 @@ const addTaxValue = async (req, res) => {
   }
 };
 
+// !!comparison only by `id_of_element` (without `environment`)!!
+const editTaxValue = async (req, res) => {
+  // TODO
+  // id in params should also change after editing on frontend
+  // (we should use new id for put when it has changed)
+
+  const editTaxValuePromise = new Promise((resolve, reject) => {
+    const id = req.params.id;
+    const { body: updatedValues } = req;
+
+    const query = `
+      UPDATE
+      ??
+      SET
+      ?
+      WHERE
+      ?? = ?
+    `;
+
+    const values = [tableName, updatedValues, 'id_of_element', id];
+
+    pool.query(query, values, (error, rows) => {
+      if (error) {
+        reject(error);
+      }
+
+      if (rows.affectedRows === 1) {
+        resolve();
+      }
+    });
+  });
+
+  try {
+    await editTaxValuePromise;
+    return res.sendStatus(200);
+  } catch (error) {
+    return res.status(500).send({ message: error });
+  }
+};
+
 module.exports = {
   getTaxValues,
   addTaxValue,
+  editTaxValue,
 };

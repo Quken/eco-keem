@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 
-import { post } from '../utils/httpService';
+import { post, put } from '../utils/httpService';
 
 export const AddDictionaryRecord = ({ columns, url, setShouldFetchData }) => {
   const [formValues, setFormValues] = React.useState({});
@@ -33,6 +33,21 @@ export const AddDictionaryRecord = ({ columns, url, setShouldFetchData }) => {
     }
   };
 
+  const editRecord = () => {
+    // const id = 0;
+    // const body = {
+    //   tax: 8737,
+    // };
+    // put(`${url}/${id}`, body)
+    //   .then(() => {
+    //     setShouldFetchData(true);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     alert(error.toString());
+    //   });
+  };
+
   return (
     <>
       <Form
@@ -61,6 +76,7 @@ export const AddDictionaryRecord = ({ columns, url, setShouldFetchData }) => {
           Додати запис
         </Button>
       )}
+      <button onClick={editRecord}>edit</button>
     </>
   );
 };

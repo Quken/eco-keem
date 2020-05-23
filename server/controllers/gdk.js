@@ -104,8 +104,49 @@ const addGdkElement = async (req, res) => {
   }
 };
 
+// !!comparison only by `code` (without `environment`)!!
+const editGdkElement = async (req, res) => {
+  // TODO
+  // id in params should also change after editing on frontend
+  // (we should use new id for put when it has changed)
+
+  const editGdkElementPromise = new Promise((resolve, reject) => {
+    const id = req.params.id;
+    const { body: updatedValues } = req;
+
+    const query = `
+      UPDATE
+      ??
+      SET
+      ?
+      WHERE
+      ?? = ?
+    `;
+
+    const values = [tableName, updatedValues, 'code', id];
+
+    pool.query(query, values, (error, rows) => {
+      if (error) {
+        reject(error);
+      }
+
+      if (rows.affectedRows === 1) {
+        resolve();
+      }
+    });
+  });
+
+  try {
+    await editGdkElementPromise;
+    return res.sendStatus(200);
+  } catch (error) {
+    return res.status(500).send({ message: error });
+  }
+};
+
 module.exports = {
   addGdkElement,
   findGdkElement,
   getAllGdkElements,
+  editGdkElement,
 };

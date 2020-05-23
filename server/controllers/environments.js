@@ -60,7 +60,47 @@ const addEnvironment = async (req, res) => {
   }
 };
 
+const editEnvironment = async (req, res) => {
+  // TODO
+  // id in params should also change after editing on frontend
+  // (we should use new id for put when it has changed)
+
+  const editEnvironmentPromise = new Promise((resolve, reject) => {
+    const id = req.params.id;
+    const { body: updatedValues } = req;
+
+    const query = `
+      UPDATE
+      ??
+      SET
+      ?
+      WHERE
+      ?? = ?
+    `;
+
+    const values = [tableName, updatedValues, 'id', id];
+
+    pool.query(query, values, (error, rows) => {
+      if (error) {
+        reject(error);
+      }
+
+      if (rows.affectedRows === 1) {
+        resolve();
+      }
+    });
+  });
+
+  try {
+    await editEnvironmentPromise;
+    return res.sendStatus(200);
+  } catch (error) {
+    return res.status(500).send({ message: error });
+  }
+};
+
 module.exports = {
   getEnvironments,
   addEnvironment,
+  editEnvironment,
 };

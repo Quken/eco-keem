@@ -164,7 +164,7 @@ export const Dictionary = ({ user, tableName }) => {
         </div>
       </div>
       <div
-        style={{ height: '500px', width: '99%' }}
+        style={{ height: '500px', width: '99%', margin: '0 auto' }}
         className='ag-theme-alpine'
       >
         <AgGridReact

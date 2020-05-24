@@ -43,7 +43,9 @@ export const RemoveDictionaryRecord = ({
         alert(message ? message.sqlMessage : message.toString());
       }
     } else {
-      alert('Невірно введене підтвердження. Операцію відхилено');
+      alert(
+        'Невірно введене підтвердження або була відміна операції. Операцію скасовано.'
+      );
     }
   };
 

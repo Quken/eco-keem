@@ -15,10 +15,10 @@ const getElements = async (req, res) => {
 
     return pool.query(query, values, (error, rows) => {
       if (error) {
-        reject(error);
+        return reject(error);
       }
 
-      resolve(rows);
+      return resolve(rows);
     });
   });
 
@@ -41,11 +41,11 @@ const addElement = async (req, res) => {
 
     pool.query(query, [tableName, Object.values(req.body)], (error, rows) => {
       if (error) {
-        reject(error);
+        return reject(error);
       }
 
       if (rows.affectedRows === 1) {
-        resolve();
+        return resolve();
       }
     });
   });
@@ -80,11 +80,11 @@ const editElement = async (req, res) => {
 
     pool.query(query, values, (error, rows) => {
       if (error) {
-        reject(error);
+        return reject(error);
       }
 
       if (rows.affectedRows === 1) {
-        resolve();
+        return resolve();
       }
     });
   });
@@ -112,11 +112,11 @@ const removeElement = async (req, res) => {
 
     pool.query(query, values, (error, rows) => {
       if (error) {
-        reject(error);
+        return reject(error);
       }
 
       if (rows.affectedRows === 1) {
-        resolve();
+        return resolve();
       }
     });
   });

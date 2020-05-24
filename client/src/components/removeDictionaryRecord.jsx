@@ -7,9 +7,9 @@ import { deleteRequest } from '../utils/httpService';
 
 export const RemoveDictionaryRecord = ({
   selectedRow,
+  setShouldDeselectSelectedRows,
   url,
   setShouldFetchData,
-  setSelectedRow,
 }) => {
   const [idColumnName, setIdColumnName] = useState(null);
   const [idValue, setIdValue] = useState(null);
@@ -25,13 +25,18 @@ export const RemoveDictionaryRecord = ({
   }, [selectedRow]);
 
   const removeRecord = async () => {
-    try {
-      await deleteRequest(`${url}/${idValue}`);
-      setShouldFetchData(true);
-      setSelectedRow(null);
-    } catch (error) {
-      console.log(error);
-      alert(error.toString());
+    if (window.confirm('Ви впевнені що бажаєте видалити обраний рядок?')) {
+      try {
+        await deleteRequest(`${url}/${idValue}`);
+        setShouldFetchData(true);
+        setShouldDeselectSelectedRows(true);
+        alert('Рядок успішно видалено');
+      } catch (error) {
+        console.log(error.response);
+        alert('Помилка видалення');
+        const message = error.response.data.message;
+        alert(message ? message.sqlMessage : message.toString());
+      }
     }
   };
 
@@ -59,7 +64,7 @@ export const RemoveDictionaryRecord = ({
               value={idValue}
             />
           </InputGroup>
-          <div className='col-1 m-auto'>
+          <div className='col-1 mr-auto ml-auto mb-3 mt-3'>
             <Button variant='danger' onClick={removeRecord}>
               Видалити
             </Button>

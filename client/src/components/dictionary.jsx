@@ -13,6 +13,7 @@ import { AddDictionaryRecord } from './addDictionaryRecord';
 import { DictionaryModes } from './dictionaryModes';
 import { DICTIONARY_MODES } from '../utils/constants';
 import { RemoveDictionaryRecord } from './removeDictionaryRecord';
+import { EditDictionaryRecord } from './editDictionaryRecord';
 
 const mapColumns = (columns) => {
   return columns.map((columnName) => ({
@@ -35,6 +36,9 @@ export const Dictionary = ({ user, tableName }) => {
 
   const [selectedMode, setSelectedMode] = useState(null);
   const [selectedRow, setSelectedRow] = useState(null);
+  const [shouldDeselectSelectedRows, setShouldDeselectSelectedRows] = useState(
+    false
+  );
 
   useEffect(() => {
     if (shouldFetchData) {
@@ -47,6 +51,20 @@ export const Dictionary = ({ user, tableName }) => {
       setShouldFetchData(false);
     }
   }, [url, shouldFetchData]);
+
+  useEffect(() => {
+    if (shouldDeselectSelectedRows && gridOptions.api) {
+      setSelectedRow(null);
+      gridOptions.api.deselectAll();
+      onFilterTextBoxChanged('');
+
+      setShouldDeselectSelectedRows(false);
+    }
+  }, [shouldDeselectSelectedRows, gridOptions.api]);
+
+  useEffect(() => {
+    setShouldDeselectSelectedRows(true);
+  }, [selectedMode]);
 
   const onFilterTextBoxChanged = (inputText) => {
     gridOptions.api.setQuickFilter(inputText);
@@ -96,12 +114,13 @@ export const Dictionary = ({ user, tableName }) => {
       {user &&
         user.id_of_expert === 0 &&
         selectedMode === DICTIONARY_MODES.edit && (
-          // <AddDictionaryRecord
-          //   columns={columns}
-          //   url={url}
-          //   setShouldFetchData={setShouldFetchData}
-          // />
-          <div>edit</div>
+          <EditDictionaryRecord
+            columns={columns}
+            url={url}
+            setShouldFetchData={setShouldFetchData}
+            selectedRow={selectedRow}
+            setShouldDeselectSelectedRows={setShouldDeselectSelectedRows}
+          />
         )}
       {user &&
         user.id_of_expert === 0 &&
@@ -110,7 +129,7 @@ export const Dictionary = ({ user, tableName }) => {
             selectedRow={selectedRow}
             url={url}
             setShouldFetchData={setShouldFetchData}
-            setSelectedRow={setSelectedRow}
+            setShouldDeselectSelectedRows={setShouldDeselectSelectedRows}
           />
         )}
       <div

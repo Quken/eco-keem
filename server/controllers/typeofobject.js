@@ -15,10 +15,10 @@ const getTypes = async (req, res) => {
 
     return pool.query(query, values, (error, rows) => {
       if (error) {
-        reject(error);
+        return reject(error);
       }
 
-      resolve(rows);
+      return resolve(rows);
     });
   });
 
@@ -26,9 +26,9 @@ const getTypes = async (req, res) => {
     const rows = await getTypesPromise;
     const mappedTypes = rows.map(({ Id, Name, Image_Name }) => {
       return {
-        id: Id,
-        name: Name,
-        imageName: Image_Name,
+        Id,
+        Name,
+        Image_Name,
       };
     });
 
@@ -55,11 +55,11 @@ const addType = async (req, res) => {
       [tableName, columns, Object.values(req.body)],
       (error, rows) => {
         if (error) {
-          reject(error);
+          return reject(error);
         }
 
         if (rows.affectedRows === 1) {
-          resolve();
+          return resolve();
         }
       }
     );
@@ -95,11 +95,11 @@ const editTypeOfObject = async (req, res) => {
 
     pool.query(query, values, (error, rows) => {
       if (error) {
-        reject(error);
+        return reject(error);
       }
 
       if (rows.affectedRows === 1) {
-        resolve();
+        return resolve();
       }
     });
   });
@@ -127,11 +127,11 @@ const removeTypeOfObject = async (req, res) => {
 
     pool.query(query, values, (error, rows) => {
       if (error) {
-        reject(error);
+        return reject(error);
       }
 
       if (rows.affectedRows === 1) {
-        resolve();
+        return resolve();
       }
     });
   });

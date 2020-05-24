@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputGroup, FormControl, Button } from 'react-bootstrap';
+import { InputGroup, FormControl, Button, Alert } from 'react-bootstrap';
 import { getIdColumnNameForDictionaryObject } from '../utils/helpers';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -41,15 +41,13 @@ export const RemoveDictionaryRecord = ({
   };
 
   return (
-    <div className='row d-flex justify-content-center flex-column'>
+    <div>
       {!selectedRow && (
-        <div className='mr-auto ml-auto mb-3 mt-3'>
-          Оберіть рядок для видалення
-        </div>
+        <Alert variant='primary'>Оберіть рядок для видалення</Alert>
       )}
       {selectedRow && (idValue || idValue === 0) && idColumnName && (
-        <>
-          <InputGroup size='md' className='col-2 mr-auto ml-auto mb-3 mt-3'>
+        <div className='d-flex justify-content-center flex-column'>
+          <InputGroup size='md'>
             <InputGroup.Prepend>
               <InputGroup.Text id='inputGroup-sizing-md'>
                 Видалити {idColumnName}:
@@ -69,7 +67,7 @@ export const RemoveDictionaryRecord = ({
               Видалити
             </Button>
           </div>
-        </>
+        </div>
       )}
     </div>
   );

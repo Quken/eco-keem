@@ -15,6 +15,8 @@ import { DICTIONARY_MODES } from '../utils/constants';
 import { RemoveDictionaryRecord } from './removeDictionaryRecord';
 import { EditDictionaryRecord } from './editDictionaryRecord';
 
+import './dictionary.css';
+
 const mapColumns = (columns) => {
   return columns.map((columnName) => ({
     headerName: columnName,
@@ -83,57 +85,75 @@ export const Dictionary = ({ user, tableName }) => {
 
   return (
     <>
-      <DictionaryModes setSelectedMode={setSelectedMode} user={user} />
-      {selectedMode === DICTIONARY_MODES.search && (
-        <div className='row'>
-          <InputGroup size='md' className='col-6 mr-auto ml-auto mb-3 mt-3'>
-            <InputGroup.Prepend>
-              <InputGroup.Text id='inputGroup-sizing-md'>
-                Пошук:
-              </InputGroup.Text>
-            </InputGroup.Prepend>
-            <FormControl
-              aria-label='Medium'
-              aria-describedby='inputGroup-sizing-md'
-              id='filter-text-box'
-              placeholder='Filter...'
-              onInput={({ target }) => onFilterTextBoxChanged(target.value)}
-            />
-          </InputGroup>
+      <div className='container d-flex justify-content-space-between mt-4 mb-4 dictionary'>
+        <div className='col-3 text-left dictionary__modes'>
+          <div className='mb-2'>Оберіть опцію</div>
+          <DictionaryModes
+            setSelectedMode={setSelectedMode}
+            user={user}
+            className='text-align-left'
+          />
         </div>
-      )}
-      {user &&
-        user.id_of_expert === 0 &&
-        selectedMode === DICTIONARY_MODES.add && (
-          <AddDictionaryRecord
-            columns={columns}
-            url={url}
-            setShouldFetchData={setShouldFetchData}
-          />
-        )}
-      {user &&
-        user.id_of_expert === 0 &&
-        selectedMode === DICTIONARY_MODES.edit && (
-          <EditDictionaryRecord
-            columns={columns}
-            url={url}
-            setShouldFetchData={setShouldFetchData}
-            selectedRow={selectedRow}
-            setShouldDeselectSelectedRows={setShouldDeselectSelectedRows}
-          />
-        )}
-      {user &&
-        user.id_of_expert === 0 &&
-        selectedMode === DICTIONARY_MODES.delete && (
-          <RemoveDictionaryRecord
-            selectedRow={selectedRow}
-            url={url}
-            setShouldFetchData={setShouldFetchData}
-            setShouldDeselectSelectedRows={setShouldDeselectSelectedRows}
-          />
-        )}
+        <div
+          className='col-9'
+          style={{
+            backgroundColor: '#e1ebf3',
+            paddingTop: '10px',
+            paddingBottom: '10px',
+          }}
+        >
+          {selectedMode === DICTIONARY_MODES.search && (
+            <div className='row'>
+              <InputGroup size='md' className='col-9 m-auto'>
+                <InputGroup.Prepend>
+                  <InputGroup.Text id='inputGroup-sizing-md'>
+                    Пошук:
+                  </InputGroup.Text>
+                </InputGroup.Prepend>
+                <FormControl
+                  aria-label='Medium'
+                  aria-describedby='inputGroup-sizing-md'
+                  id='filter-text-box'
+                  placeholder='Введіть пошукові дані...'
+                  onInput={({ target }) => onFilterTextBoxChanged(target.value)}
+                />
+              </InputGroup>
+            </div>
+          )}
+          {user &&
+            user.id_of_expert === 0 &&
+            selectedMode === DICTIONARY_MODES.add && (
+              <AddDictionaryRecord
+                columns={columns}
+                url={url}
+                setShouldFetchData={setShouldFetchData}
+              />
+            )}
+          {user &&
+            user.id_of_expert === 0 &&
+            selectedMode === DICTIONARY_MODES.edit && (
+              <EditDictionaryRecord
+                columns={columns}
+                url={url}
+                setShouldFetchData={setShouldFetchData}
+                selectedRow={selectedRow}
+                setShouldDeselectSelectedRows={setShouldDeselectSelectedRows}
+              />
+            )}
+          {user &&
+            user.id_of_expert === 0 &&
+            selectedMode === DICTIONARY_MODES.delete && (
+              <RemoveDictionaryRecord
+                selectedRow={selectedRow}
+                url={url}
+                setShouldFetchData={setShouldFetchData}
+                setShouldDeselectSelectedRows={setShouldDeselectSelectedRows}
+              />
+            )}
+        </div>
+      </div>
       <div
-        style={{ height: '500px', width: '100%' }}
+        style={{ height: '500px', width: '99%' }}
         className='ag-theme-alpine'
       >
         <AgGridReact

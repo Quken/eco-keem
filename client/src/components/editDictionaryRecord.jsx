@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Alert } from 'react-bootstrap';
 
 import { put } from '../utils/httpService';
 import { getIdColumnNameForDictionaryObject } from '../utils/helpers';
@@ -81,9 +81,9 @@ export const EditDictionaryRecord = ({
         </>
       )}
       {!selectedRow && (
-        <div className='mr-auto ml-auto mb-3 mt-3'>
+        <Alert className='m-auto' variant='primary'>
           Оберіть рядок для редагування
-        </div>
+        </Alert>
       )}
     </>
   );

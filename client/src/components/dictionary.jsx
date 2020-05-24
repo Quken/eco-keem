@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { InputGroup, FormControl } from 'react-bootstrap';
+import { InputGroup, FormControl, Button } from 'react-bootstrap';
 
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
@@ -83,6 +83,14 @@ export const Dictionary = ({ user, tableName }) => {
     setSelectedRow(selectedData[0]);
   };
 
+  const exportDataAsCSV = () => {
+    const params = {
+      fileName: 'exportingData.csv',
+    };
+
+    gridOptions.api.exportDataAsCsv(params);
+  };
+
   return (
     <>
       <div className='container d-flex justify-content-space-between mt-4 mb-4 dictionary'>
@@ -93,6 +101,9 @@ export const Dictionary = ({ user, tableName }) => {
             user={user}
             className='text-align-left'
           />
+          <Button variant='secondary' onClick={exportDataAsCSV}>
+            Export to CSV
+          </Button>
         </div>
         <div
           className='col-9'

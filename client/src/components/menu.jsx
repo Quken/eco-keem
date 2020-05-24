@@ -17,8 +17,6 @@ const TABLE_NAMES_ON_IU = {
   [TABLE_NAMES.tax_values]: 'Податки',
 };
 
-console.log(TABLE_NAMES_ON_IU);
-
 export const MenuView = ({ user, setUser, dictionary, setDictionary }) => {
   const history = useHistory();
 

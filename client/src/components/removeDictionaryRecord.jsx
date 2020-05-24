@@ -25,7 +25,12 @@ export const RemoveDictionaryRecord = ({
   }, [selectedRow]);
 
   const removeRecord = async () => {
-    if (window.confirm('Ви впевнені що бажаєте видалити обраний рядок?')) {
+    const warningMessage = `
+    Ви впевнені що бажаєте видалити обраний рядок?
+    Для підтверждення операції введіть: ${idValue}`;
+    const userConfirmation = window.prompt(warningMessage);
+
+    if (+userConfirmation === idValue) {
       try {
         await deleteRequest(`${url}/${idValue}`);
         setShouldFetchData(true);
@@ -37,6 +42,8 @@ export const RemoveDictionaryRecord = ({
         const message = error.response.data.message;
         alert(message ? message.sqlMessage : message.toString());
       }
+    } else {
+      alert('Невірно введене підтвердження. Операцію відхилено');
     }
   };
 

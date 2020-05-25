@@ -102,7 +102,7 @@ export const Dictionary = ({ user, tableName }) => {
             className='text-align-left'
           />
           <Button variant='secondary' onClick={exportDataAsCSV}>
-            Export to CSV
+            Експорт у CSV
           </Button>
         </div>
         <div

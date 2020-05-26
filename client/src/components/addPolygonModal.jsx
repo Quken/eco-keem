@@ -216,10 +216,11 @@ export const AddPolygonModal = ({
           />
         </Form.Group>
         <Form.Group>
-          <Form.Label>Оберить колір полігона та товщину лінії</Form.Label>
+          <Form.Label>Оберіть колір полігона та товщину лінії</Form.Label>
           <Form.Control
             type='number'
             value={lineThickness}
+            min={1}
             onChange={(e) => setLineThickness(e.target.value)}
           />
           <br />

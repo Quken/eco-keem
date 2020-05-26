@@ -106,10 +106,6 @@ const addGdkElement = async (req, res) => {
 
 // !!comparison only by `code` (without `environment`)!!
 const editGdkElement = async (req, res) => {
-  // TODO
-  // id in params should also change after editing on frontend
-  // (we should use new id for put when it has changed)
-
   const editGdkElementPromise = new Promise((resolve, reject) => {
     const id = req.params.id;
     const { body: updatedValues } = req;

@@ -62,10 +62,6 @@ const addTaxValue = async (req, res) => {
 
 // !!comparison only by `id_of_element` (without `environment`)!!
 const editTaxValue = async (req, res) => {
-  // TODO
-  // id in params should also change after editing on frontend
-  // (we should use new id for put when it has changed)
-
   const editTaxValuePromise = new Promise((resolve, reject) => {
     const id = req.params.id;
     const { body: updatedValues } = req;

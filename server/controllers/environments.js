@@ -61,10 +61,6 @@ const addEnvironment = async (req, res) => {
 };
 
 const editEnvironment = async (req, res) => {
-  // TODO
-  // id in params should also change after editing on frontend
-  // (we should use new id for put when it has changed)
-
   const editEnvironmentPromise = new Promise((resolve, reject) => {
     const id = req.params.id;
     const { body: updatedValues } = req;

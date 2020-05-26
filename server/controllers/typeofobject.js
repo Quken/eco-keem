@@ -74,10 +74,6 @@ const addType = async (req, res) => {
 };
 
 const editTypeOfObject = async (req, res) => {
-  // TODO
-  // id in params should also change after editing on frontend
-  // (we should use new id for put when it has changed)
-
   const editTypeOfObjectPromise = new Promise((resolve, reject) => {
     const id = req.params.id;
     const { body: updatedValues } = req;

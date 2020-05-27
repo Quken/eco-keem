@@ -41,10 +41,12 @@ export const Polygons = ({
           user_name,
           name,
           emissions,
+          lineThickness,
         }) => (
           <Polygon
             key={poligonId}
             positions={polygonPoints}
+            weight={lineThickness}
             color={`rgba(${brushColorR}, ${brushColorG}, ${brushColorB}, 1)`}
           >
             <Popup maxWidth='auto'>

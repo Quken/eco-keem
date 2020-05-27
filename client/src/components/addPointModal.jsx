@@ -113,7 +113,13 @@ export const AddPointModal = ({
 
   useEffect(() => {
     get(TYPE_OF_OBJECT_URL).then(({ data }) => {
-      setTypes(data);
+      const mappedTypes = data.map(({ Id, Name, Image_Name }) => ({
+        id: Id,
+        name: Name,
+        imageName: Image_Name,
+      }));
+
+      setTypes(mappedTypes);
     });
     get(OWNER_TYPES_URL).then(({ data }) => {
       setOwnerTypes(data);

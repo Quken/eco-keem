@@ -23,3 +23,10 @@ export const TABLE_NAMES = {
   type_of_object: 'type_of_object',
   tax_values: 'tax_values',
 };
+
+export const DICTIONARY_MODES = {
+  search: 'search',
+  add: 'add',
+  edit: 'edit',
+  delete: 'delete',
+};

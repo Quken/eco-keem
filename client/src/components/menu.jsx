@@ -9,6 +9,14 @@ import { TABLE_NAMES } from '../utils/constants';
 import { Login } from './login';
 import { EnvironmentsInfoContext } from './context/environmentsInfoContext';
 
+const TABLE_NAMES_ON_IU = {
+  [TABLE_NAMES.elements]: 'Елементи',
+  [TABLE_NAMES.gdk]: 'ГДК',
+  [TABLE_NAMES.environment]: 'Середовища',
+  [TABLE_NAMES.type_of_object]: 'Типи об`єктів',
+  [TABLE_NAMES.tax_values]: 'Податки',
+};
+
 export const MenuView = ({ user, setUser, dictionary, setDictionary }) => {
   const history = useHistory();
 
@@ -81,7 +89,7 @@ export const MenuView = ({ user, setUser, dictionary, setDictionary }) => {
               key={index}
               active={dictionary === name}
             >
-              {name}
+              {TABLE_NAMES_ON_IU[name]}
             </NavDropdown.Item>
           ))}
         </NavDropdown>

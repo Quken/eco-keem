@@ -30,18 +30,26 @@ router.put('/point/:id', pointController.updatePoint);
 
 router.get('/typeofobjects', typeOfObjectController.getTypes);
 router.post('/typeofobjects', typeOfObjectController.addType);
+router.put('/typeofobjects/:id', typeOfObjectController.editTypeOfObject);
+router.delete('/typeofobjects/:id', typeOfObjectController.removeTypeOfObject);
 
 router.get('/experts', expertsController.getExperts);
 
 router.get('/environments', environmentsController.getEnvironments);
 router.post('/environments', environmentsController.addEnvironment);
+router.put('/environments/:id', environmentsController.editEnvironment);
+router.delete('/environments/:id', environmentsController.removeEnvironment);
 
 router.get('/elements', elementsController.getElements);
 router.post('/elements', elementsController.addElement);
+router.put('/elements/:id', elementsController.editElement);
+router.delete('/elements/:id', elementsController.removeElement);
 
 router.get('/gdk', gdkController.getAllGdkElements);
 router.post('/gdk', gdkController.addGdkElement);
+router.put('/gdk/:id', gdkController.editGdkElement);
 router.post('/gdk/find', gdkController.findGdkElement);
+router.delete('/gdk/:id', gdkController.removeGdkElement);
 
 router.get(
   '/emissionscalculations',
@@ -52,6 +60,8 @@ router.get('/ownertypes', ownerTypesController.getAll);
 
 router.get('/taxvalues', taxValuesController.getTaxValues);
 router.post('/taxvalues', taxValuesController.addTaxValue);
+router.put('/taxvalues/:id', taxValuesController.editTaxValue);
+router.delete('/taxvalues/:id', taxValuesController.removeTaxValue);
 
 if (process.env.NODE_ENV === 'production') {
   router.get('*', (req, res) => {

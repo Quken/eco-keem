@@ -2,7 +2,7 @@ const pool = require('../../db-config/mysql-config');
 
 const tableName = 'gdk';
 
-const getGdkElement = (req, res) => {
+const findGdkElement = (req, res) => {
   const { code, environment } = req.body;
 
   const columnNames = ['mpc_m_ot', 'mpc_avrg_d'];
@@ -46,6 +46,137 @@ const getGdkElement = (req, res) => {
   });
 };
 
+const getAllGdkElements = async (req, res) => {
+  const getAllElementsPromise = new Promise((resolve, reject) => {
+    const query = `
+      SELECT 
+        *
+      FROM 
+        ??
+      ;`;
+
+    const values = [tableName];
+
+    return pool.query(query, values, (error, rows) => {
+      if (error) {
+        return reject(error);
+      }
+
+      return resolve(rows);
+    });
+  });
+
+  try {
+    const rows = await getAllElementsPromise;
+    return res.send(JSON.stringify(rows));
+  } catch (error) {
+    return res.status(500).send({
+      message: error,
+    });
+  }
+};
+
+const addGdkElement = async (req, res) => {
+  const addGdkElementPromise = new Promise((resolve, reject) => {
+    const query = `
+      INSERT INTO
+        ??
+      VALUES
+        (?)
+    `;
+
+    pool.query(query, [tableName, Object.values(req.body)], (error, rows) => {
+      if (error) {
+        return reject(error);
+      }
+
+      if (rows.affectedRows === 1) {
+        return resolve();
+      }
+    });
+  });
+
+  try {
+    await addGdkElementPromise;
+    return res.sendStatus(200);
+  } catch (error) {
+    return res.status(500).send({ message: error });
+  }
+};
+
+// !!comparison only by `code` (without `environment`)!!
+const editGdkElement = async (req, res) => {
+  const editGdkElementPromise = new Promise((resolve, reject) => {
+    const id = req.params.id;
+    const { body: updatedValues } = req;
+
+    const query = `
+      UPDATE
+      ??
+      SET
+      ?
+      WHERE
+      ?? = ?
+    `;
+
+    const values = [tableName, updatedValues, 'code', id];
+
+    pool.query(query, values, (error, rows) => {
+      if (error) {
+        return reject(error);
+      }
+
+      if (rows.affectedRows === 1) {
+        return resolve();
+      }
+    });
+  });
+
+  try {
+    await editGdkElementPromise;
+    return res.sendStatus(200);
+  } catch (error) {
+    return res.status(500).send({ message: error });
+  }
+};
+
+// !!comparison only by `code` (without `environment`)!!
+const removeGdkElement = async (req, res) => {
+  const removeGdkElementPromise = new Promise((resolve, reject) => {
+    const id = req.params.id;
+
+    const query = `
+      DELETE FROM
+      ??
+      WHERE
+      ?? = ?
+    `;
+
+    const values = [tableName, 'code', id];
+
+    pool.query(query, values, (error, rows) => {
+      if (error) {
+        return reject(error);
+      }
+
+      if (rows.affectedRows === 1) {
+        return resolve();
+      }
+    });
+  });
+
+  try {
+    await removeGdkElementPromise;
+    return res.sendStatus(200);
+  } catch (error) {
+    return res.status(500).send({ message: error });
+  }
+};
+
 module.exports = {
-  getGdkElement,
+  addGdkElement,
+  findGdkElement,
+  getAllGdkElements,
+  editGdkElement,
+  removeGdkElement,
 };

@@ -210,23 +210,21 @@ export const MapView = ({ user }) => {
         <TileLayer url={OPEN_STREET_MAP_URL} />
         <Polygons
           polygons={filteredPolygons}
-          id={polygonId}
           setPolygonId={setPolygonId}
           setIsEditPolygonMode={setIsEditPolygonMode}
           setShowPolygonModal={setShowPolygonModal}
         />
         <Points
           points={filteredPoints}
-          pointId={pointId}
           setPointId={setPointId}
           setIsEditPointMode={setIsEditPointMode}
           setShowPointModal={setShowPointModal}
         />
       </LeafletMap>
       {user && (
-        <Navbar expand="lg" className="map-options">
+        <Navbar expand='lg' className='map-options'>
           <Button
-            size="sm"
+            size='sm'
             variant={
               isAddPointModeEnabled ? 'outline-danger' : 'outline-primary'
             }
@@ -235,8 +233,8 @@ export const MapView = ({ user }) => {
             {buttonText('точку', isAddPointModeEnabled)}
           </Button>
           <Button
-            className="ml-3"
-            size="sm"
+            className='ml-3'
+            size='sm'
             variant={
               isAddPolygonModeEnabled ? 'outline-danger' : 'outline-primary'
             }
@@ -246,9 +244,9 @@ export const MapView = ({ user }) => {
           </Button>
           {isAddPolygonModeEnabled && (
             <Button
-              className="ml-3"
-              size="sm"
-              variant="outline-success"
+              className='ml-3'
+              size='sm'
+              variant='outline-success'
               onClick={finishPolygon}
             >
               Finish polygon

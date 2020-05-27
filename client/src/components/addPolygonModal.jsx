@@ -201,25 +201,26 @@ export const AddPolygonModal = ({
 
   return (
     <VerticallyCenteredModal
-      size="lg"
+      size='lg'
       show={show}
       onHide={() => hide()}
-      header="Додати або редагувати полігон"
+      header='Додати або редагувати полігон'
     >
       <Form>
         <Form.Group>
           <div>Загрузити дані із Excel файла</div>
           <input
-            type="file"
-            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            type='file'
+            accept='.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
             onChange={(event) => fileUpload(event.target.files[0])}
           />
         </Form.Group>
         <Form.Group>
-          <Form.Label>Оберить колір полігона та товщину лінії</Form.Label>
+          <Form.Label>Оберіть колір полігона та товщину лінії</Form.Label>
           <Form.Control
-            type="number"
+            type='number'
             value={lineThickness}
+            min={1}
             onChange={(e) => setLineThickness(e.target.value)}
           />
           <br />
@@ -232,7 +233,7 @@ export const AddPolygonModal = ({
         <Form.Group>
           <Form.Label>Введіть ім'я полігону</Form.Label>
           <Form.Control
-            type="input"
+            type='input'
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
@@ -241,8 +242,8 @@ export const AddPolygonModal = ({
         <Form.Group>
           <Form.Label>Додайте опис полігону</Form.Label>
           <Form.Control
-            as="textarea"
-            rows="3"
+            as='textarea'
+            rows='3'
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />

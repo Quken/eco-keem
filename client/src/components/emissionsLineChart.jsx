@@ -19,8 +19,8 @@ export const EmissionLineChart = ({ emissions }) => {
   return (
     <div>
       {Object.keys(emissions).length > 0 && (
-        <Dropdown className="mr-2 mb-2">
-          <Dropdown.Toggle size="md">
+        <Dropdown className='mr-2 mb-2'>
+          <Dropdown.Toggle size='md'>
             {elementName || 'Оберіть елемент'}
           </Dropdown.Toggle>
 
@@ -52,21 +52,21 @@ export const EmissionLineChart = ({ emissions }) => {
             bottom: 0,
           }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
+          <CartesianGrid strokeDasharray='3 3' />
+          <XAxis dataKey='name' />
           <YAxis />
           <Tooltip />
           <Line
             connectNulls
-            type="monotone"
-            dataKey="Середнє значення"
-            stroke="#8884d8"
+            type='monotone'
+            dataKey='Середнє значення'
+            stroke='#8884d8'
           />
           <Line
             connectNulls
-            type="monotone"
-            dataKey="Максимальне значення"
-            stroke="#82ca9d"
+            type='monotone'
+            dataKey='Максимальне значення'
+            stroke='#82ca9d'
           />
         </LineChart>
       )}

@@ -8,8 +8,25 @@ export const EXPERTS_URL = '/experts';
 export const ENVIRONMENTS_URL = '/environments';
 export const ELEMENTS_URL = '/elements';
 export const GDK_URL = '/gdk';
+export const GDK_FIND_URL = '/gdk/find';
 export const EMISSIONS_CALCULATIONS_URL = '/emissionscalculations';
 export const OWNER_TYPES_URL = '/ownertypes';
+export const TAX_VALUES_URL = '/taxvalues';
 
 export const MAP_CENTER_COORDS = [49.0139, 31.2858];
 export const OPEN_STREET_MAP_URL = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
+
+export const TABLE_NAMES = {
+  elements: 'elements',
+  gdk: 'gdk',
+  environment: 'environment',
+  type_of_object: 'type_of_object',
+  tax_values: 'tax_values',
+};
+
+export const DICTIONARY_MODES = {
+  search: 'search',
+  add: 'add',
+  edit: 'edit',
+  delete: 'delete',
+};

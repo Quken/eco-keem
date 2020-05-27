@@ -9,7 +9,7 @@ export const Home = () => {
     <React.Fragment>
       <CarouselView />
       <Container>
-        <Row className="justify-content-center mt-5 mb-5">
+        <Row className='justify-content-center mt-5 mb-5'>
           <Col xs={12}>
             <KEEMPrinciples />
           </Col>

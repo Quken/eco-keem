@@ -2,7 +2,7 @@ const pool = require('../../db-config/mysql-config');
 
 const iconsMapPromise = require('../utils/iconsMap')();
 
-const { getEmissionsOnMap, SOURCE_POI } = require('./emissions_on_map');
+const { getEmissionsOnMap, SOURCE_POI } = require('./emissionsOnMap');
 
 const getPoints = (req, res) => {
   const { idEnvironment } = req.query;

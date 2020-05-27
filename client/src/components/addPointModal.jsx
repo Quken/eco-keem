@@ -113,7 +113,13 @@ export const AddPointModal = ({
 
   useEffect(() => {
     get(TYPE_OF_OBJECT_URL).then(({ data }) => {
-      setTypes(data);
+      const mappedTypes = data.map(({ Id, Name, Image_Name }) => ({
+        id: Id,
+        name: Name,
+        imageName: Image_Name,
+      }));
+
+      setTypes(mappedTypes);
     });
     get(OWNER_TYPES_URL).then(({ data }) => {
       setOwnerTypes(data);
@@ -208,28 +214,28 @@ export const AddPointModal = ({
 
   return (
     <VerticallyCenteredModal
-      size="lg"
+      size='lg'
       show={show}
       onHide={() => hide()}
-      header="Додати або редагувати точку"
+      header='Додати або редагувати точку'
     >
       <Form>
         <Form.Group>
           <div>Загрузити дані із Excel файла</div>
           <input
-            type="file"
-            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            type='file'
+            accept='.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
             onChange={(event) => fileUpload(event.target.files[0])}
           />
         </Form.Group>
 
         <Form.Group>
           <Dropdown>
-            <Dropdown.Toggle size="sm" variant="success">
+            <Dropdown.Toggle size='sm' variant='success'>
               {type.name || emptyState.typeOfObject}
             </Dropdown.Toggle>
 
-            <Dropdown.Menu className="form-dropdown">
+            <Dropdown.Menu className='form-dropdown'>
               {types.length &&
                 types.map((typeOfObject) => (
                   <Dropdown.Item
@@ -246,7 +252,7 @@ export const AddPointModal = ({
 
         <Form.Group>
           <Dropdown>
-            <Dropdown.Toggle size="sm" variant="success">
+            <Dropdown.Toggle size='sm' variant='success'>
               {ownerType.type || emptyState.ownerType}
             </Dropdown.Toggle>
 
@@ -268,7 +274,7 @@ export const AddPointModal = ({
         <Form.Group>
           <Form.Label>Введіть імя</Form.Label>
           <Form.Control
-            type="input"
+            type='input'
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
@@ -277,8 +283,8 @@ export const AddPointModal = ({
         <Form.Group>
           <Form.Label>Введіть опис</Form.Label>
           <Form.Control
-            as="textarea"
-            rows="3"
+            as='textarea'
+            rows='3'
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />

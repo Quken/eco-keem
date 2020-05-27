@@ -37,7 +37,7 @@ export const DateRangePickerView = ({ id, param, setEmissionCalculations }) => {
       moveRangeOnFirstSelection={false}
       months={2}
       ranges={state}
-      direction="horizontal"
+      direction='horizontal'
     />
   );
 };

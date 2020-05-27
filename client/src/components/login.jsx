@@ -9,13 +9,13 @@ export const Login = (props) => {
 
   return (
     <React.Fragment>
-      <Button variant="primary" onClick={() => setModalShow(true)}>
+      <Button variant='primary' onClick={() => setModalShow(true)}>
         Увійти
       </Button>
       <VerticallyCenteredModal
         show={modalShow}
         onHide={() => setModalShow(false)}
-        header="Увійти до персонального акаунту"
+        header='Увійти до персонального акаунту'
       >
         <Auth onHide={() => setModalShow(false)} setUser={props.setUser} />
       </VerticallyCenteredModal>

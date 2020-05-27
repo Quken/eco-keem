@@ -7,6 +7,7 @@ import './App.css';
 import { MenuView } from './components/menu';
 import { Home } from './components/home';
 import { MapView } from './components/map';
+import { Dictionary } from './components/dictionary';
 
 import { get } from './utils/httpService';
 import { ENVIRONMENTS_URL } from './utils/constants';
@@ -17,10 +18,11 @@ import {
 } from './components/context/environmentsInfoContext';
 
 export const App = () => {
-  const [user, setUser] = React.useState({});
+  const [user, setUser] = useState({});
   const [environmentsInfo, setEnvironmentsInfo] = useState(
     environmentsInfoInitialState
   );
+  const [dictionary, setDictionary] = useState('');
 
   React.useEffect(() => {
     setUser(JSON.parse(sessionStorage.getItem('user')));
@@ -37,14 +39,25 @@ export const App = () => {
 
   return (
     <Router>
-      <div className="App">
+      <div className='App'>
         <EnvironmentsInfoContext.Provider
           value={{ environmentsInfo, setEnvironmentsInfo }}
         >
-          <MenuView user={user} setUser={setUser} />
+          <MenuView
+            user={user}
+            setUser={setUser}
+            dictionary={dictionary}
+            setDictionary={setDictionary}
+          />
           <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/earth" component={() => <MapView user={user} />} />
+            <Route exact path='/' component={Home} />
+            <Route path='/earth' component={() => <MapView user={user} />} />
+            <Route
+              path='/dictionary'
+              component={() => (
+                <Dictionary user={user} tableName={dictionary} />
+              )}
+            />
           </Switch>
         </EnvironmentsInfoContext.Provider>
       </div>

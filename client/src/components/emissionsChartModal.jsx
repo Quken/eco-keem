@@ -56,12 +56,12 @@ export const EmissionsChartModal = ({
 
   return (
     <VerticallyCenteredModal
-      size="xl"
+      size='xl'
       show={show}
       onHide={onHide}
-      header="Відобразити викиди"
+      header='Відобразити викиди'
     >
-      <h4 className="mb-3">
+      <h4 className='mb-3'>
         Оберіть дати для відображення викидів за певний період
       </h4>
       <DateRangePickerView
@@ -70,20 +70,20 @@ export const EmissionsChartModal = ({
         setEmissionCalculations={setEmissionCalculations}
       />
       {emissionCalculations.length > 0 ? (
-        <Table className="emissions-table">
+        <Table className='emissions-table'>
           <thead>
             <tr>
-              <th title="Елемент">Елемент</th>
-              <th title="Дата">Дата</th>
-              <th title="Одиниця виміру">Одиниця виміру</th>
-              <th title="Середнє значення average викидів">
+              <th title='Елемент'>Елемент</th>
+              <th title='Дата'>Дата</th>
+              <th title='Одиниця виміру'>Одиниця виміру</th>
+              <th title='Середнє значення average викидів'>
                 Середнє значення average викидів
               </th>
-              <th title="ГДК average">ГДК average</th>
-              <th title="Перевищення ГДК average">Перевищення ГДК average</th>
-              <th title="Max викидів">Max викидів</th>
-              <th title="ГДК max">ГДК max</th>
-              <th title="Перевищення ГДК max">Перевищення ГДК max</th>
+              <th title='ГДК average'>ГДК average</th>
+              <th title='Перевищення ГДК average'>Перевищення ГДК average</th>
+              <th title='Max викидів'>Max викидів</th>
+              <th title='ГДК max'>ГДК max</th>
+              <th title='Перевищення ГДК max'>Перевищення ГДК max</th>
             </tr>
           </thead>
           <tbody>
@@ -135,21 +135,21 @@ export const EmissionsChartModal = ({
           </tbody>
         </Table>
       ) : (
-        <h6 className="mt-3 mb-3">
+        <h6 className='mt-3 mb-3'>
           Немає інформації про викиди за обраний період
         </h6>
       )}
-      <div className="d-flex justify-content-around">
+      <div className='d-flex justify-content-around'>
         {chartAverageData.length > 0 && (
-          <Chart title="Графік середніх викидів" data={chartAverageData} />
+          <Chart title='Графік середніх викидів' data={chartAverageData} />
         )}
         {chartMaxData.length > 0 && (
-          <Chart title="Графік максимальних викидів" data={chartMaxData} />
+          <Chart title='Графік максимальних викидів' data={chartMaxData} />
         )}
       </div>
       {emissionCalculations.length > 0 && (
         <>
-          <h4 className="mb-3">
+          <h4 className='mb-3'>
             Оберіть елемент та для відображення викидів за допомогою графіка
           </h4>
           <EmissionLineChart

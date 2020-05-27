@@ -174,7 +174,7 @@ export const SubmitForm = ({ onSave, preloadedEmission }) => {
           )}
 
           <Form.Group>
-            <Form.Label>ВВедіть максимальне значення</Form.Label>
+            <Form.Label>Введіть максимальне значення</Form.Label>
             <Form.Control
               type='number'
               min='0'

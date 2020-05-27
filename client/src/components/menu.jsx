@@ -5,7 +5,6 @@ import Nav from 'react-bootstrap/Nav';
 import { useHistory } from 'react-router-dom';
 
 import { TABLE_NAMES } from '../utils/constants';
-import { formatDictionaryTableNames } from '../utils/helpers';
 
 import { Login } from './login';
 import { EnvironmentsInfoContext } from './context/environmentsInfoContext';
@@ -82,7 +81,7 @@ export const MenuView = ({ user, setUser, dictionary, setDictionary }) => {
               key={index}
               active={dictionary === name}
             >
-              {formatDictionaryTableNames(name)}
+              {name}
             </NavDropdown.Item>
           ))}
         </NavDropdown>

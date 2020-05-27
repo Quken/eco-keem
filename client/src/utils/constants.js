@@ -23,11 +23,3 @@ export const TABLE_NAMES = {
   type_of_object: 'type_of_object',
   tax_values: 'tax_values',
 };
-
-export const FORMATTED_TABLE_NAMES = {
-  [TABLE_NAMES.elements]: 'Елементи',
-  [TABLE_NAMES.gdk]: 'ГДК',
-  [TABLE_NAMES.environment]: 'Середовища',
-  [TABLE_NAMES.type_of_object]: 'Сфера діяльності об’єкту',
-  [TABLE_NAMES.tax_values]: 'Податки',
-};

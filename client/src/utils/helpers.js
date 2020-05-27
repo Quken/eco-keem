@@ -1,5 +1,3 @@
-import { FORMATTED_TABLE_NAMES } from './constants';
-
 export const transformEmissions = (emissions) => {
   const elementIds = [...new Set(emissions.map(({ idElement }) => idElement))];
 
@@ -174,5 +172,3 @@ export const extractRGBA = (rgbaString) => {
     alert(error.message);
   }
 };
-
-export const formatDictionaryTableNames = (name) => FORMATTED_TABLE_NAMES[name];

@@ -50,6 +50,8 @@ export const AddPointModal = ({
   const [types, setTypes] = useState([]);
   const [ownerTypes, setOwnerTypes] = useState([]);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const [preloadedEmission, setPreloadedEmission] = useState(
     initialState.preloadedEmission
   );
@@ -65,6 +67,7 @@ export const AddPointModal = ({
   };
 
   const addPoint = (emission) => {
+    setIsLoading(true);
     post(POINT_URL, {
       Name_object: name,
       description,
@@ -78,11 +81,18 @@ export const AddPointModal = ({
         clearForm();
         onHide();
         setShouldFetchData(true);
+        setIsLoading(false);
       })
-      .catch(() => setShouldFetchData(false));
+      .catch((error) => {
+        alert('Помилка при додаванні даних.');
+        console.log(error);
+        setShouldFetchData(false);
+        setIsLoading(false);
+      });
   };
 
   const editPoint = (emission) => {
+    setIsLoading(true);
     put(`${POINT_URL}/${pointId}`, {
       Name_object: name,
       description,
@@ -96,13 +106,17 @@ export const AddPointModal = ({
         setShouldFetchData(true);
         setIsEditPointMode(false);
         setPointId(null);
+        setIsLoading(false);
       })
-      .catch(() => {
+      .catch((error) => {
+        alert('Помилка при редагуванні даних.');
+        console.log(error);
         setShouldFetchData(false);
         setIsEditPointMode(false);
         setPointId(null);
         setIsEditPointMode(false);
         setPointId(null);
+        setIsLoading(false);
       });
   };
 
@@ -294,9 +308,14 @@ export const AddPointModal = ({
           <SubmitForm
             onSave={editPoint}
             preloadedEmission={preloadedEmission}
+            isLoading={isLoading}
           />
         ) : (
-          <SubmitForm onSave={addPoint} preloadedEmission={preloadedEmission} />
+          <SubmitForm
+            onSave={addPoint}
+            preloadedEmission={preloadedEmission}
+            isLoading={isLoading}
+          />
         )}
       </Form>
     </VerticallyCenteredModal>

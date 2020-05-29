@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Dropdown, Form, Alert } from 'react-bootstrap';
+import { Button, Dropdown, Form, Alert, Spinner } from 'react-bootstrap';
 
 import { ELEMENTS_URL, GDK_FIND_URL } from '../utils/constants';
 import { post, get } from '../utils/httpService';
@@ -27,7 +27,7 @@ const initialState = {
   },
 };
 
-export const SubmitForm = ({ onSave, preloadedEmission }) => {
+export const SubmitForm = ({ onSave, preloadedEmission, isLoading }) => {
   const { environmentsInfo } = useContext(EnvironmentsInfoContext);
 
   const [isActive, setIsActive] = useState(false);
@@ -215,9 +215,30 @@ export const SubmitForm = ({ onSave, preloadedEmission }) => {
           )}
         </>
       )}
-      <Button variant='outline-primary' onClick={handleSubmit}>
-        Зберегти
-      </Button>
+      {isLoading ? (
+        <Button
+          variant='outline-primary'
+          onClick={handleSubmit}
+          style={{
+            cursor: 'not-allowed',
+            pointerEvents: 'all',
+          }}
+          disabled
+        >
+          <Spinner
+            as='span'
+            animation='grow'
+            size='sm'
+            role='status'
+            aria-hidden='true'
+          />
+          Обробка...
+        </Button>
+      ) : (
+        <Button variant='outline-primary' onClick={handleSubmit}>
+          Зберегти
+        </Button>
+      )}
     </>
   );
 };

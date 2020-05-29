@@ -48,6 +48,9 @@ export const AddPolygonModal = ({
   const [preloadedEmission, setPreloadedEmission] = useState(
     initialState.preloadedEmission
   );
+
+  const [isLoading, setIsLoading] = useState(false);
+
   const clearForm = () => {
     setLineThickness(initialState.form.lineThickness);
     setColor(initialState.form.brushColor);
@@ -75,6 +78,7 @@ export const AddPolygonModal = ({
   }, [polygonId, isEditPolygonMode]);
 
   const addPolygon = (emission) => {
+    setIsLoading(true);
     post(POLYGON_URL, {
       brush_color_r: color.r,
       bruch_color_g: color.g,
@@ -101,14 +105,19 @@ export const AddPolygonModal = ({
         onHide();
         setNewPolygonCoordinates([]);
         setShouldFetchData(true);
+        setIsLoading(false);
       })
-      .catch(() => {
+      .catch((error) => {
+        alert('Помилка при додаванні даних.');
+        console.log(error);
         setNewPolygonCoordinates([]);
         setShouldFetchData(false);
+        setIsLoading(false);
       });
   };
 
   const editPolygon = (emission) => {
+    setIsLoading(true);
     put(`${POLYGON_URL}/${polygonId}`, {
       brush_color_r: color.r,
       bruch_color_g: color.g,
@@ -130,12 +139,16 @@ export const AddPolygonModal = ({
         setShouldFetchData(true);
         setIsEditPolygonMode(false);
         setPolygonId(null);
+        setIsLoading(false);
       })
-      .catch(() => {
+      .catch((error) => {
+        alert('Помилка при редагуванні даних.');
+        console.log(error);
         setIsEditPolygonMode(false);
         setPolygonId(null);
         setNewPolygonCoordinates([]);
         setShouldFetchData(false);
+        setIsLoading(false);
       });
   };
 
@@ -252,11 +265,13 @@ export const AddPolygonModal = ({
           <SubmitForm
             onSave={editPolygon}
             preloadedEmission={preloadedEmission}
+            isLoading={isLoading}
           />
         ) : (
           <SubmitForm
             onSave={addPolygon}
             preloadedEmission={preloadedEmission}
+            isLoading={isLoading}
           />
         )}
       </Form>

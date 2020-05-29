@@ -228,6 +228,11 @@ export const MapView = ({ user }) => {
             variant={
               isAddPointModeEnabled ? 'outline-danger' : 'outline-primary'
             }
+            style={{
+              cursor: isAddPolygonModeEnabled ? 'not-allowed' : 'pointer',
+              pointerEvents: isAddPolygonModeEnabled ? 'all' : 'auto',
+            }}
+            disabled={isAddPolygonModeEnabled}
             onClick={() => setAddPointMode(!isAddPointModeEnabled)}
           >
             {buttonText('точку', isAddPointModeEnabled)}
@@ -238,6 +243,11 @@ export const MapView = ({ user }) => {
             variant={
               isAddPolygonModeEnabled ? 'outline-danger' : 'outline-primary'
             }
+            style={{
+              cursor: isAddPointModeEnabled ? 'not-allowed' : 'pointer',
+              pointerEvents: isAddPointModeEnabled ? 'all' : 'auto',
+            }}
+            disabled={isAddPointModeEnabled}
             onClick={() => setAddPolygonMode(!isAddPolygonModeEnabled)}
           >
             {buttonText('полігон', isAddPolygonModeEnabled)}

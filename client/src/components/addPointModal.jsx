@@ -217,7 +217,7 @@ export const AddPointModal = ({
       size='lg'
       show={show}
       onHide={() => hide()}
-      header='Додати або редагувати точку'
+      header={isEditPointMode ? 'Редагувати маркер' : 'Додати маркер'}
     >
       <Form>
         <Form.Group>

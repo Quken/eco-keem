@@ -204,7 +204,7 @@ export const AddPolygonModal = ({
       size='lg'
       show={show}
       onHide={() => hide()}
-      header='Додати або редагувати полігон'
+      header={isEditPolygonMode ? 'Редагувати полігон' : 'Додати полігон'}
     >
       <Form>
         <Form.Group>

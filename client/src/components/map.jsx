@@ -235,7 +235,7 @@ export const MapView = ({ user }) => {
             disabled={isAddPolygonModeEnabled}
             onClick={() => setAddPointMode(!isAddPointModeEnabled)}
           >
-            {buttonText('точку', isAddPointModeEnabled)}
+            {buttonText('маркер', isAddPointModeEnabled)}
           </Button>
           <Button
             className='ml-3'

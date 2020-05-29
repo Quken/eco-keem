@@ -249,7 +249,7 @@ export const MapView = ({ user }) => {
               variant='outline-success'
               onClick={finishPolygon}
             >
-              Finish polygon
+              Закінчити полігон
             </Button>
           )}
         </Navbar>

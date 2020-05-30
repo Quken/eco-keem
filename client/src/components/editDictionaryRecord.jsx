@@ -52,7 +52,7 @@ export const EditDictionaryRecord = ({
           <Form
             style={{
               margin: '0 auto',
-              width: '50%',
+              width: '80%',
               display: 'flex',
               flexWrap: 'wrap',
             }}

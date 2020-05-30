@@ -10,6 +10,8 @@ import { VerticallyCenteredModal } from './modal';
 import { SubmitForm } from './submitForm';
 import { useEffect } from 'react';
 import { extractRGBA } from '../utils/helpers';
+import { getUploadedFileType, uploadedFileTypes } from '../utils/getFileType';
+import { preparedDataPromise } from '../utils/txtFilesService';
 
 const initialState = {
   form: {
@@ -161,7 +163,7 @@ export const AddPolygonModal = ({
     let preloadedEmission = null;
 
     const actionsMap = new Map([
-      ['LINE THICKNESS', (columnValue) => setLineThickness(columnValue)],
+      ['LINE_THICKNESS', (columnValue) => setLineThickness(columnValue)],
       ['COLOR', (columnValue) => setColor(extractRGBA(columnValue))],
       ['NAME', (columnValue) => setName(columnValue)],
       ['DESCRIPTION', (columnValue) => setDescription(columnValue)],
@@ -179,7 +181,7 @@ export const AddPolygonModal = ({
           }),
       ],
       [
-        'AVERAGE VALUE',
+        'AVERAGE_VALUE',
         (columnValue) =>
           (preloadedEmission = {
             ...preloadedEmission,
@@ -187,7 +189,7 @@ export const AddPolygonModal = ({
           }),
       ],
       [
-        'MAXIMUM VALUE',
+        'MAXIMUM_VALUE',
         (columnValue) =>
           (preloadedEmission = {
             ...preloadedEmission,
@@ -208,8 +210,29 @@ export const AddPolygonModal = ({
     }
   };
 
-  const fileUpload = (file) => {
-    readXlsxFile(file).then(setModalFields);
+  const fileUpload = async (e) => {
+    e.preventDefault();
+    if (e.target.files && e.target.files.length) {
+      try {
+        const type = getUploadedFileType(e.target.files[0]);
+        if (type === uploadedFileTypes.txt) {
+          const reader = new FileReader();
+          reader.onload = async (e) => {
+            const mappedResult = await preparedDataPromise(e.target.result);
+            console.log(mappedResult);
+            debugger;
+            setModalFields(mappedResult);
+          };
+          reader.readAsText(e.target.files[0], 'UTF-8');
+        } else if (type === uploadedFileTypes.xlsx) {
+          const data = await readXlsxFile(e.target.files[0]);
+          console.log(data);
+          setModalFields(data);
+        }
+      } catch (error) {
+        alert('Помилка при обробці вхідних даних');
+      }
+    }
   };
 
   return (
@@ -224,8 +247,8 @@ export const AddPolygonModal = ({
           <div>Загрузити дані із Excel файла</div>
           <input
             type='file'
-            accept='.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
-            onChange={(event) => fileUpload(event.target.files[0])}
+            accept='.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, text/plain'
+            onChange={(e) => fileUpload(e)}
           />
         </Form.Group>
         <Form.Group>

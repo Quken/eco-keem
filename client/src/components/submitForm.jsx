@@ -121,8 +121,8 @@ export const SubmitForm = ({ onSave, preloadedEmission, isLoading }) => {
 
         const formattedDate = `${date.getFullYear()}-${(
           '0' +
-          (now.getMonth() + 1)
-        ).slice(-2)}-${date.getDate()}`;
+          (date.getMonth() + 1)
+        ).slice(-2)}-${('0' + date.getDate()).slice(-2)}`;
 
         handleDate(formattedDate);
 

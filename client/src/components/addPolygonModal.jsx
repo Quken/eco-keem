@@ -219,14 +219,11 @@ export const AddPolygonModal = ({
           const reader = new FileReader();
           reader.onload = async (e) => {
             const mappedResult = await preparedDataPromise(e.target.result);
-            console.log(mappedResult);
-            debugger;
             setModalFields(mappedResult);
           };
           reader.readAsText(e.target.files[0], 'UTF-8');
         } else if (type === uploadedFileTypes.xlsx) {
           const data = await readXlsxFile(e.target.files[0]);
-          console.log(data);
           setModalFields(data);
         }
       } catch (error) {
@@ -244,7 +241,7 @@ export const AddPolygonModal = ({
     >
       <Form>
         <Form.Group>
-          <div>Загрузити дані із Excel файла</div>
+          <div>Загрузити дані із Excel або текстового файла</div>
           <input
             type='file'
             accept='.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, text/plain'

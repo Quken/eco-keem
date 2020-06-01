@@ -60,7 +60,6 @@ const addTaxValue = async (req, res) => {
   }
 };
 
-// !!comparison only by `id_of_element` (without `environment`)!!
 const editTaxValue = async (req, res) => {
   const editTaxValuePromise = new Promise((resolve, reject) => {
     const id = req.params.id;
@@ -96,7 +95,6 @@ const editTaxValue = async (req, res) => {
   }
 };
 
-// !!comparison only by `code` (without `environment`)!!
 const removeTaxValue = async (req, res) => {
   const removeTaxValuePromise = new Promise((resolve, reject) => {
     const id = req.params.id;

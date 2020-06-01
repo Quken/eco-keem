@@ -104,7 +104,6 @@ const addGdkElement = async (req, res) => {
   }
 };
 
-// !!comparison only by `code` (without `environment`)!!
 const editGdkElement = async (req, res) => {
   const editGdkElementPromise = new Promise((resolve, reject) => {
     const id = req.params.id;
@@ -140,7 +139,6 @@ const editGdkElement = async (req, res) => {
   }
 };
 
-// !!comparison only by `code` (without `environment`)!!
 const removeGdkElement = async (req, res) => {
   const removeGdkElementPromise = new Promise((resolve, reject) => {
     const id = req.params.id;

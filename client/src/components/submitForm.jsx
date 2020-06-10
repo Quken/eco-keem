@@ -15,7 +15,7 @@ const day = ('0' + now.getDate()).slice(-2);
 
 const initialState = {
   form: {
-    date: now,
+    date: `${year}-${month}-${day}`,
     valueAvg: 0,
     valueMax: 0,
     gdk: 100000,
@@ -53,7 +53,6 @@ export const SubmitForm = ({ onSave, preloadedEmission, isLoading }) => {
   };
 
   const onClick = () => {
-    // clearForm();
     setIsActive(!isActive);
   };
 
@@ -77,6 +76,7 @@ export const SubmitForm = ({ onSave, preloadedEmission, isLoading }) => {
 
     onSave(emission);
     clearForm();
+    setIsActive(false);
   };
 
   const selectElement = (element) => {
